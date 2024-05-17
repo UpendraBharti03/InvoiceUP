@@ -18,7 +18,7 @@ export const isEmailTaken = async ({email}: {email: string}) => {
     return !!user;
 }
 
-export const createUser = async ({userBody, session}: {userBody: Omit<IUser, "_id" | "normalizedEmail">, session: any}) => {
+export const createUser = async ({userBody, session}: {userBody: Omit<IUser, "_id" | "normalizedEmail">, session?: any}) => {
     if (await isEmailTaken({email: userBody.email})) {
         throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
     }
