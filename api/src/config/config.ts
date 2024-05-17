@@ -20,5 +20,6 @@ export const config = {
     },
     jwt: {
         secret: envVars.JWT_SECRET,
+        accessExpirationHours: envVars.JWT_ACCESS_TOKEN_EXPIRATION_HOURS,
     }
 }
