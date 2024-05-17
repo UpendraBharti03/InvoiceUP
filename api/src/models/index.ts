@@ -4,4 +4,8 @@ export const modelsInfo = {
         modelName: 'User',
         collectionName: 'users',
     },
+    TOKEN: {
+        modelName: 'Token',
+        collectionName: 'tokens',
+    },
 }

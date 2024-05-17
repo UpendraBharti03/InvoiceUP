@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import User, { IUser } from '@src/features/auth/user/user.model';
 import ApiError from '@src/utils/ApiError';
+import httpStatus from 'http-status';
 
 /**
  * Password Matched or not
@@ -17,8 +18,16 @@ export const isEmailTaken = async ({email}: {email: string}) => {
     return !!user;
 }
 
-// export const createUser = async (userBody: Omit<IUser, "_id" | "normalizedEmail">) => {
-//     if (await isEmailTaken({email: userBody.email})) {
-//         throw new Error(httpStatus.BAD_REQUEST, "Email already taken");
-//       }
-// }
+export const createUser = async ({userBody, session}: {userBody: Omit<IUser, "_id" | "normalizedEmail">, session: any}) => {
+    if (await isEmailTaken({email: userBody.email})) {
+        throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
+    }
+
+    const payload: Omit<IUser, "_id"> = {
+        ...userBody,
+        normalizedEmail: userBody.email.toLowerCase()
+    }
+
+    const results = await User.create([payload], {session});
+    return results[0];
+}
