@@ -6,6 +6,9 @@ import { errorConverter, errorHandler } from '@src/middlewares/error';
 
 const app = express();
 
+// parse json request body
+app.use(express.json({ limit: '50mb' }));
+
 // api router
 app.use('/api', indexRouter);
 

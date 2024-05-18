@@ -1,12 +1,6 @@
 import * as process from 'process';
-//@ts-ignore
-import moduleAlias from "module-alias";
 import path from 'path';
 import dotenv from 'dotenv';
-
-moduleAlias({
-    base: path.join(__dirname, '../../')
-})
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 

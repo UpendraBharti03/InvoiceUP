@@ -14,8 +14,8 @@ import bcrypt from 'bcryptjs';
 export class IUser {
     public _id?: mongoose.Types.ObjectId;
 
-    @prop({type: String, required: true})
-    public name?: INameModel;
+    @prop({type: INameModel, required: true})
+    public name!: INameModel;
 
     @prop({ type: String, required: true })
     public email!: string;

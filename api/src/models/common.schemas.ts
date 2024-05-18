@@ -9,8 +9,5 @@ export class INameModel {
     public first!: string;
 
     @prop({ type: String, required: false, default: '' })
-    public middle?: string;
-
-    @prop({ type: String, required: false, default: '' })
     public last?: string;
 }

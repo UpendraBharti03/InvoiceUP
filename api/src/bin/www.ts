@@ -1,16 +1,25 @@
 import process from "process";
 import mongoose, {ConnectOptions} from "mongoose";
 import http from "http";
-import app from "@src/app";
-import {config} from "@src/config/config";
+import moduleAlias from "module-alias";
+import path from 'path';
+import dotenv from 'dotenv';
 
-const PORT = config.port;
+import app from "../app";
+
+moduleAlias({
+    base: path.join(__dirname, '../../')
+})
+
+dotenv.config({ path: path.join(__dirname, '../../.env') });
+
+const PORT = process.env.port;
 
 app.set('port', PORT);
 
 const server = http.createServer(app);
 
-mongoose.connect(config.mongoose.url, {
+mongoose.connect(process.env.MONGODB_URL ?? '', {
     useUnifiedTopology: true,
     autoCreate: true,
     autoIndex: true,
