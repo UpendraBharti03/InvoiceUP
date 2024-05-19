@@ -3,7 +3,7 @@ import { modelsInfo } from "@src/models";
 import { getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 import mongoose from "mongoose";
 
-@modelOptions({ schemaOptions: { collection: modelsInfo.TOKEN.collectionName } })
+@modelOptions({ schemaOptions: { collection: modelsInfo.TOKEN.collectionName, timestamps: true } })
 export class IToken {
     public _id?: mongoose.Types.ObjectId;
 

@@ -10,7 +10,7 @@ import bcrypt from 'bcryptjs';
     }
     next();
 })
-@modelOptions({ schemaOptions: { collection: modelsInfo.USER.collectionName } })
+@modelOptions({ schemaOptions: { collection: modelsInfo.USER.collectionName, timestamps: true } })
 export class IUser {
     public _id?: mongoose.Types.ObjectId;
 
