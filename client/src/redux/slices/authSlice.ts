@@ -8,7 +8,9 @@ const initialState = {
 
 export const SLICE_NAME = "auth";
 
-
+export const signup = createAsyncThunk("auth/signup", async (_, thunkAPI) => {
+    
+})
 
 export const authSlice = createSlice({
   name: SLICE_NAME,
