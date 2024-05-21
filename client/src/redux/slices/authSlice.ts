@@ -48,7 +48,16 @@ export const authSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
+// @ts-ignore - TODO: type check
 export const { setToken } = authSlice.actions
+
+export const selectIsAuthenticated = (state: RootState) => state[SLICE_NAME].isAuthenticated;
+
+export const selectIsAuthLoading = (state: RootState) => state[SLICE_NAME].isAuthLoading;
+
+export const selectAccessToken = (state: RootState) => state[SLICE_NAME].accessToken;
+
+export const selectUserDetails = (state: RootState) => state[SLICE_NAME].user;
 
 export const selectUserEmail = (state: RootState) => state[SLICE_NAME]?.user?.email;
 
