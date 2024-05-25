@@ -8,7 +8,7 @@ export interface IUiSettingsContext {
 
 export const UiSettingsContext: Context<IUiSettingsContext> = createContext({
     sidebarOpen: false,
-    size: 'small',
+    size: 'medium',
     multiTasking: false,
 } as IUiSettingsContext);
 

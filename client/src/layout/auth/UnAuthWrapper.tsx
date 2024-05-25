@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 function UnAuthWrapper({ children }: {children: ReactNode}) {
     const isAuthenticated = useSelector(selectIsAuthenticated);
+    console.log("isAuthenticated", isAuthenticated)
     if (isAuthenticated) {
         redirect({
             to: '/',
