@@ -11,7 +11,7 @@ export default defineConfig(({mode}) => {
     return {
         resolve: {
             alias: {
-                '@/': path.resolve(__dirname, './src'),
+                '@': path.resolve(__dirname, './src'),
                 '@ui-helpers': path.resolve(__dirname, './src/libs/ui-helpers'),
                 '@ant-ui': path.resolve(__dirname, './src/libs/ant-ui'),
             },
