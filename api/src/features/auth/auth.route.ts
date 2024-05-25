@@ -1,6 +1,6 @@
 import express from 'express'
 import { validate } from '@src/middlewares/validate'
-import { loginUserValidation, logoutUserValidation, signUpUserValidation } from '@src/features/auth/auth.validation'
+import { accessTokenValidation, loginUserValidation, logoutUserValidation, signUpUserValidation } from '@src/features/auth/auth.validation'
 import authController from '@src/features/auth/auth.controller'
 import catchAsync from '@src/utils/catchAsync'
 import { authenticate } from '@src/features/auth/auth.middleware';
@@ -18,5 +18,8 @@ router.post('/logout', validate(logoutUserValidation), catchAsync(authController
 
 // get profile route
 router.get('/get-profile', authenticate, catchAsync(authController?.getProfileHandler))
+
+// get new access token after expires
+router.post('/access-token', validate(accessTokenValidation), catchAsync(authController?.getNewAccessTokenHandler))
 
 export default router

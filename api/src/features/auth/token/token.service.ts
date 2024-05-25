@@ -38,6 +38,14 @@ export const generateAuthToken = async ({user}: {user: IUser}): Promise<{access:
     }
 }
 
+export const verifyToken = async ({token, tokenType}: {token: string, tokenType: string}) => {
+    const payload = jwt.verify(token, config.jwt.secret);
+    const tokenDoc = await Token.findOne({ token, tokenType, user: payload.sub });
+    if (!tokenDoc) {
+        throw new Error('Token not found');
+    }
+    return tokenDoc;
+};
 export const getTokenDetailsByToken = async ({token}: {token: string}): Promise<IToken | null> => {
     const result = await Token.findOne({token});
     return result;

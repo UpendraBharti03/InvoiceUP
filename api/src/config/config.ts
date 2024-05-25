@@ -13,7 +13,7 @@ export const config = {
         url: envVars.MONGODB_URL ?? '',
     },
     jwt: {
-        secret: envVars.JWT_SECRET,
+        secret: envVars.JWT_SECRET ?? '',
         accessExpirationHours: envVars.JWT_ACCESS_TOKEN_EXPIRATION_HOURS,
     }
 }

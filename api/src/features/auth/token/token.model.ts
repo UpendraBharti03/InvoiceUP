@@ -7,8 +7,8 @@ import mongoose from "mongoose";
 export class IToken {
     public _id?: mongoose.Types.ObjectId;
 
-    @prop({type: String, required: true, ref: modelsInfo?.USER?.modelName})
-    public userId!: string;
+    @prop({type: mongoose.SchemaTypes.ObjectId, required: true, ref: modelsInfo?.USER?.modelName})
+    public userId!: mongoose.Types.ObjectId;
     
     @prop({type: String, required: true})
     public token!: string;

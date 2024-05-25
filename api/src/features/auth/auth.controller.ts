@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { createUser } from "@src/features/auth/user/user.service";
+import { createUser, getUserById } from "@src/features/auth/user/user.service";
 import { IUser } from "@src/features/auth/user/user.model";
 import { generateAuthToken } from "@src/features/auth/token/token.service";
 import mongoose from "mongoose";
 import httpStatus from "http-status";
-import { loginUserWithEmailPassword, logoutUser, sanitizeUser } from "./auth.service";
+import { getNewAccessToken, loginUserWithEmailPassword, logoutUser, sanitizeUser } from "./auth.service";
 
 const signUpHandler = async (req: Request, res: Response) => {
     const reqBody = req.body;
@@ -23,19 +23,19 @@ const signUpHandler = async (req: Request, res: Response) => {
     try {
         session.startTransaction();
 
-        const user = await createUser({userBody});
-        const tokens = await generateAuthToken({user});
-    
+        const user = await createUser({ userBody });
+        const tokens = await generateAuthToken({ user });
+
         await session.commitTransaction();
 
         return res.sendJSONResponse({
             data: {
-                user: sanitizeUser({user}),
+                user: sanitizeUser({ user }),
                 tokens,
             },
             message: "Sign Up completed"
         })
-    } catch(err: any) {
+    } catch (err: any) {
         console.log('-> error', err);
         await session.abortTransaction();
 
@@ -48,14 +48,14 @@ const signUpHandler = async (req: Request, res: Response) => {
 }
 
 const loginHandler = async (req: Request, res: Response) => {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
 
-    const user = await loginUserWithEmailPassword({email, password});
-    const tokens = await generateAuthToken({user});
+    const user = await loginUserWithEmailPassword({ email, password });
+    const tokens = await generateAuthToken({ user });
 
     return res.sendJSONResponse({
         data: {
-            user: sanitizeUser({user}),
+            user: sanitizeUser({ user }),
             tokens,
         },
         message: "successfully logged in"
@@ -64,7 +64,7 @@ const loginHandler = async (req: Request, res: Response) => {
 
 const logoutHandler = async (req: Request, res: Response) => {
     const token = req.body.token;
-    await logoutUser({token});
+    await logoutUser({ token });
 
     return res.sendJSONResponse({
         data: {},
@@ -76,9 +76,20 @@ const getProfileHandler = async (req: any, res: Response) => {
     const user = req.user;
     res.sendJSONResponse({
         data: {
-            user: sanitizeUser({user}),
+            user: sanitizeUser({ user }),
         },
     })
 }
 
-export default {signUpHandler, loginHandler, logoutHandler, getProfileHandler};
+const getNewAccessTokenHandler = async (req: Request, res: Response) => {
+    const oldAccessToken = req.body.accessToken;
+    const tokens = await getNewAccessToken({oldAccessToken});
+
+    return res.sendJSONResponse({
+        data: {
+            tokens,
+        },
+    });
+}
+
+export default { signUpHandler, loginHandler, logoutHandler, getProfileHandler, getNewAccessTokenHandler };

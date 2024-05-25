@@ -40,3 +40,14 @@ export const logoutUserValidation : ValidateMiddlewareParams = {
         },
     },
 }
+
+export const accessTokenValidation : ValidateMiddlewareParams = {
+    body: {
+        rules: {
+            'accessToken': 'required',
+        },
+        niceNames: {
+            'accessToken': "Token",
+        },
+    },
+}
