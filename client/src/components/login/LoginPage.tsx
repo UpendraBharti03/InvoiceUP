@@ -1,11 +1,12 @@
-import LoginForm, { TLoginFormValues } from "@/components/login/LoginForm";
+import { TLoginFormZS } from "@/@types/auth";
+import LoginForm from "@/components/login/LoginForm";
 import { loginUser } from "@/redux/slices/authSlice";
 import { AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
 
 const LoginPage = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const handleLoginSubmit = async (values: TLoginFormValues) => {
+    const handleLoginSubmit = async (values: TLoginFormZS) => {
         const result = await dispatch(loginUser(values));
         console.log("result", result)
         if (result) {

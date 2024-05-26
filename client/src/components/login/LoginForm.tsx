@@ -1,14 +1,11 @@
 import { Col, Row } from "antd";
-import { FormikForm, ATextField, AButton, APasswordField } from "@/libs/ant-ui";
 import { useFormikContext } from "formik";
-
-export type TLoginFormValues = {
-    email: string;
-    password: string;
-}
+import { FormikForm, ATextField, AButton, APasswordField } from "@ant-ui";
+import { validateZodSchemaFormik } from "@ui-helpers";
+import { LoginFormZS, TLoginFormZS } from "@/@types/auth";
 
 const LoginFormContent = () => {
-    const { isSubmitting } = useFormikContext<TLoginFormValues>();
+    const { isSubmitting } = useFormikContext<TLoginFormZS>();
 
     return (
         <div className={"h-full flex flex-col"}>
@@ -21,19 +18,30 @@ const LoginFormContent = () => {
                 </Col>
 
                 <Col span={24}>
-                    <AButton type="primary" loading={isSubmitting} htmlType="submit" className={"w-full justify-center"}>
-                        Login
-                    </AButton>
+                    <div className={"flex items-center justify-center"}>
+                        <AButton type="primary" loading={isSubmitting} htmlType="submit">
+                            Login
+                        </AButton>
+                    </div>
                 </Col>
             </Row>
         </div>
     );
 }
 
-const LoginForm = ({ initialValues, handleSubmit }: { initialValues: TLoginFormValues; handleSubmit: (values: TLoginFormValues) => Promise<void> }) => {
+const LoginForm = ({ initialValues, handleSubmit }: { initialValues: TLoginFormZS; handleSubmit: (values: TLoginFormZS) => Promise<void> }) => {
+
+    const validateForm = async (values: TLoginFormZS) => {
+        const zodErrors: Partial<TLoginFormZS> = validateZodSchemaFormik({
+            schema: LoginFormZS,
+            values,
+        });
+        console.log('-> errors', zodErrors);
+        return zodErrors;
+    }
 
     return (
-        <FormikForm initialValues={initialValues} onSubmit={handleSubmit}>
+        <FormikForm initialValues={initialValues} validate={validateForm} onSubmit={handleSubmit}>
             <LoginFormContent />
         </FormikForm>
     )

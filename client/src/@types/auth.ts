@@ -1,3 +1,6 @@
+import { z } from "zod";
+import { UserZS } from "@/@types/zodSchema/userZS";
+
 export type TAuthPayload = {
     firstName: string;
     lastName: string;
@@ -34,3 +37,10 @@ export type TProfile = {
     user: TUser;
     tokens: TTokens;
 }
+
+export const LoginFormZS = UserZS.pick({
+    email: true,
+    password: true,
+});
+
+export type TLoginFormZS = z.infer<typeof LoginFormZS>;
