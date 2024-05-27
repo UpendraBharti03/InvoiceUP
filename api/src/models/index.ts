@@ -8,4 +8,8 @@ export const modelsInfo = {
         modelName: 'Token',
         collectionName: 'tokens',
     },
+    PRODUCT: {
+        modelName: 'Product',
+        collectionName: 'products',
+    },
 }
