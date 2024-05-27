@@ -17,9 +17,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 })
 
 const RootComponent = () => {
-    useEffect(() => {
-        persistor.persist();
-    }, []);
+    // useEffect(() => {
+    //     persistor.persist();
+    // }, []);
     return (
         <>
             {/* <PersistGate loading={null} persistor={persistor}> */}

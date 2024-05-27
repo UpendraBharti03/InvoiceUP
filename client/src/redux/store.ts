@@ -35,7 +35,7 @@ export const store = configureStore({
 })
 
 // @ts-ignore as per documentation manualPersist property exists in the config object.
-export const persistor = persistStore(store, { manualPersist: true });
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
