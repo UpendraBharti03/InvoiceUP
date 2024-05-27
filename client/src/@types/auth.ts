@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { UserZS } from "@/@types/zodSchema/userZS";
+import { messages } from "@/messages";
 
 export type TAuthPayload = {
     firstName: string;
@@ -44,3 +45,22 @@ export const LoginFormZS = UserZS.pick({
 });
 
 export type TLoginFormZS = z.infer<typeof LoginFormZS>;
+
+export const SignupFormZS = UserZS.omit({
+    _id: true,
+    name: true,
+}).extends({
+    firstName: z.string().trim(),
+    lastName: z.string().trim(),
+    confirmPassword: z.string().min(4).min(1, messages.PASSWORD_REQUIRED),
+}).superRefine((values, ctx) => {
+    if (values?.confirmPassword !== values?.password) {
+        ctx.addIssue({
+          code: "custom",
+          message: messages.PASSWORDS_DID_NOT_MATCH,
+          path: ['confirmPassword']
+        });
+      }
+});
+
+export type TSignupFormZS = z.infer<typeof SignupFormZS>;
