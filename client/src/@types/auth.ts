@@ -49,7 +49,7 @@ export type TLoginFormZS = z.infer<typeof LoginFormZS>;
 export const SignupFormZS = UserZS.omit({
     _id: true,
     name: true,
-}).extends({
+}).extend({
     firstName: z.string().trim(),
     lastName: z.string().trim(),
     confirmPassword: z.string().min(4).min(1, messages.PASSWORD_REQUIRED),

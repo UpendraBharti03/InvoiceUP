@@ -2,6 +2,7 @@ import { TLoginFormZS } from "@/@types/auth";
 import LoginForm from "@/components/login/LoginForm";
 import { loginUser } from "@/redux/slices/authSlice";
 import { AppDispatch } from "@/redux/store";
+import { redirect } from "@tanstack/react-router";
 import { useDispatch } from "react-redux";
 
 const LoginPage = () => {
@@ -10,7 +11,10 @@ const LoginPage = () => {
         const result = await dispatch(loginUser(values));
         console.log("result", result)
         if (result) {
-            
+            redirect({
+                to: "/dashboard",
+                throw: true,
+            })
         }
     }
     return (

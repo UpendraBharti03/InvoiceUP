@@ -12,9 +12,9 @@ const initialState: TAuthSliceState = {
     user: null,
 }
 
-export const SLICE_NAME = "auth";
+export const AUTH_SLICE_NAME = "auth";
 
-export const signupUser = createAsyncThunk(`${SLICE_NAME}/signup`, async (payload: TAuthPayload, thunkAPI) => {
+export const signupUser = createAsyncThunk(`${AUTH_SLICE_NAME}/signup`, async (payload: TAuthPayload, thunkAPI) => {
   try {
     const response = await signupRequest(payload);
     return extractDataFromResponse({ response }) as TProfile;
@@ -23,7 +23,7 @@ export const signupUser = createAsyncThunk(`${SLICE_NAME}/signup`, async (payloa
   }
 })
 
-export const loginUser = createAsyncThunk(`${SLICE_NAME}/login`, async (payload: Pick<TAuthPayload, "email" | "password">, thunkAPI) => {
+export const loginUser = createAsyncThunk(`${AUTH_SLICE_NAME}/login`, async (payload: Pick<TAuthPayload, "email" | "password">, thunkAPI) => {
   try {
     const response = await loginRequest(payload);
     return extractDataFromResponse({ response }) as TProfile;
@@ -33,7 +33,7 @@ export const loginUser = createAsyncThunk(`${SLICE_NAME}/login`, async (payload:
 })
 
 export const authSlice = createSlice({
-  name: SLICE_NAME,
+  name: AUTH_SLICE_NAME,
   initialState,
   reducers: {
     setTokens: (state, action) => {
@@ -76,14 +76,14 @@ export const authSlice = createSlice({
 // @ts-ignore - TODO: type check
 export const { setToken } = authSlice.actions
 
-export const selectIsAuthenticated = (state: RootState) => state[SLICE_NAME].isAuthenticated;
+export const selectIsAuthenticated = (state: RootState) => state[AUTH_SLICE_NAME].isAuthenticated;
 
-export const selectIsAuthLoading = (state: RootState) => state[SLICE_NAME].isAuthLoading;
+export const selectIsAuthLoading = (state: RootState) => state[AUTH_SLICE_NAME].isAuthLoading;
 
-export const selectAccessToken = (state: RootState) => state[SLICE_NAME].accessToken;
+export const selectAccessToken = (state: RootState) => state[AUTH_SLICE_NAME].accessToken;
 
-export const selectUserDetails = (state: RootState) => state[SLICE_NAME].user;
+export const selectUserDetails = (state: RootState) => state[AUTH_SLICE_NAME].user;
 
-export const selectUserEmail = (state: RootState) => state[SLICE_NAME]?.user?.email;
+export const selectUserEmail = (state: RootState) => state[AUTH_SLICE_NAME]?.user?.email;
 
 export default authSlice.reducer

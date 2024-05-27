@@ -1,16 +1,19 @@
-import { SignupFormZS, TSignupFormZS } from "@/@types/auth";
+import { TSignupFormZS } from "@/@types/auth";
 import SignupForm from "@/components/signup/SignupForm";
 import { signupUser } from "@/redux/slices/authSlice";
 import { AppDispatch } from "@/redux/store";
+import { redirect } from "@tanstack/react-router";
 import { useDispatch } from "react-redux";
 
 const SignupPage = () => {
     const dispatch = useDispatch<AppDispatch>();
     const handleSignupSubmit = async (values: TSignupFormZS) => {
         const result = await dispatch(signupUser(values));
-        console.log("result", result)
         if (result) {
-            
+            redirect({
+                to: "/dashboard",
+                throw: true,
+            })
         }
     }
     return (
@@ -24,6 +27,7 @@ const SignupPage = () => {
                             lastName: '',
                             email: '',
                             password: '',
+                            confirmPassword: '',
                         }} handleSubmit={handleSignupSubmit} />
                     </div>
                 </div>

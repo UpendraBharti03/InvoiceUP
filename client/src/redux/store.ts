@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import authSlice, {SLICE_NAME as AUTH_SLICE_NAME} from "@/redux/slices/authSlice";
+import authSlice, { AUTH_SLICE_NAME } from "@/redux/slices/authSlice";
 import { persistReducer } from 'redux-persist';
 import createWebStorage from 'redux-persist/es/storage/createWebStorage';
 import persistStore from 'redux-persist/es/persistStore';

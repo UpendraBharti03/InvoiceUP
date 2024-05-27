@@ -1,12 +1,18 @@
-import { persistor, store } from '@/redux/store';
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
+import { TAuthSliceState } from '@/@types/auth';
+import { AUTH_SLICE_NAME } from '@/redux/slices/authSlice';
+import { persistor } from '@/redux/store';
+import { createRootRoute, createRootRouteWithContext, Link, Outlet } from '@tanstack/react-router'
 import { useEffect } from 'react';
-import { Provider } from 'react-redux';
-import { Slide, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { PersistGate } from 'redux-persist/integration/react';
+
 // import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
-export const Route = createRootRoute({
+interface MyRouterContext {
+    // The ReturnType of your useAuth hook or the value of your AuthContext
+    [AUTH_SLICE_NAME]: TAuthSliceState
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
     component: () => <RootComponent />,
 })
 
@@ -16,8 +22,8 @@ const RootComponent = () => {
     }, []);
     return (
         <>
-        <Provider store={store}>
-            {/* <div className="p-2 flex gap-2 bg-amber-400">
+            {/* <PersistGate loading={null} persistor={persistor}> */}
+                {/* <div className="p-2 flex gap-2 bg-amber-400">
                 <Link to="/" className="[&.active]:font-bold">
                     Home
                 </Link>{' '}
@@ -25,10 +31,9 @@ const RootComponent = () => {
                     About
                 </Link>
             </div> */}
-            <Outlet />
-            {/*<TanStackRouterDevtools />*/}
-            </Provider>
-            <ToastContainer transition={Slide} progressClassName="toastProgress" bodyClassName="toastBody" />
+                <Outlet />
+                {/*<TanStackRouterDevtools />*/}
+            {/* </PersistGate> */}
         </>
     )
 }

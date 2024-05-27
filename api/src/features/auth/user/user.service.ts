@@ -42,6 +42,7 @@ export const getUserById = async ({userId}: {userId: mongoose.Types.ObjectId}): 
 }
 
 export const getUserByEmail = async ({email}: {email: string}) => {
-    const user = await User.findOne({email});
+    const normalizedEmail = email.toLowerCase();
+    const user = await User.findOne({normalizedEmail});
     return user;
 }

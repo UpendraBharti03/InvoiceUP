@@ -1,13 +1,26 @@
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
+import { Provider } from 'react-redux';
+import { Slide, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { PersistGate } from 'redux-persist/integration/react';
+
+import { persistor, store } from '@/redux/store'
+import { AUTH_SLICE_NAME } from '@/redux/slices/authSlice'
 import './index.css'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
 
 // Create a new router instance
-const router = createRouter({ routeTree })
+const router = createRouter({
+    routeTree, context: {
+        // auth will initially be undefined
+        // We'll be passing down the auth state from within a React component
+        [AUTH_SLICE_NAME]: undefined!,
+    }
+})
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
@@ -22,7 +35,12 @@ if (!rootElement.innerHTML) {
     const root = ReactDOM.createRoot(rootElement)
     root.render(
         <StrictMode>
-            <RouterProvider router={router} />
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor}>
+                    <RouterProvider router={router} context={{ auth: store.getState()[AUTH_SLICE_NAME] }} />
+                </PersistGate>
+            </Provider>
+            <ToastContainer transition={Slide} progressClassName="toastProgress" bodyClassName="toastBody" />
         </StrictMode>,
     )
 }
