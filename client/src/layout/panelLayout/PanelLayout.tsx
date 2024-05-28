@@ -1,21 +1,24 @@
 import React from 'react';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Sidebar } from '@/layout/panelLayout/Sidebar';
 
 type TPanelLayoutProps = {
     children: React.ReactNode;
 }
 
 function PanelLayout({ children }: TPanelLayoutProps) {
+    const {token: themeToken} = theme.useToken();
     return <>
-    <Layout style={{ minHeight: '100vh' }}>
-    <Layout.Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
-    </Layout.Sider>
-    <Layout>
-    <Layout.Content style={{ margin: '0 16px' }}></Layout.Content>
-    {children}
-    </Layout>
-    </Layout>
+        <Layout style={{ minHeight: '100vh' }}>
+            <Layout.Sider theme={"light"} collapsible collapsed={false}>
+                <Sidebar />
+            </Layout.Sider>
+            <Layout>
+                <Layout.Content style={{ padding: themeToken?.padding }}>
+                    {children}
+                </Layout.Content>
+            </Layout>
+        </Layout>
     </>;
 }
 

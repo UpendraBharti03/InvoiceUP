@@ -36,6 +36,8 @@ export const sanitizeUser = ({user}: {user: IUser}): Omit<IUser, "passwordHash" 
     const sanitizedUser = JSON.parse(JSON.stringify(user));
     delete sanitizedUser.passwordHash;
     delete sanitizedUser.normalizedEmail;
+    delete sanitizedUser.createdAt;
+    delete sanitizedUser.updatedAt;
     delete sanitizedUser.__v;
     return sanitizedUser;
 }

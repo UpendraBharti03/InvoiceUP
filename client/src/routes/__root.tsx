@@ -1,9 +1,9 @@
 import { TAuthSliceState } from '@/@types/auth';
+import CustomLayout from '@/layout/Layout';
 import { AUTH_SLICE_NAME } from '@/redux/slices/authSlice';
-import { persistor } from '@/redux/store';
+import { store } from '@/redux/store';
 import { createRootRoute, createRootRouteWithContext, Link, Outlet } from '@tanstack/react-router'
-import { useEffect } from 'react';
-import { PersistGate } from 'redux-persist/integration/react';
+import React from 'react';
 
 // import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
@@ -17,12 +17,10 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 })
 
 const RootComponent = () => {
-    // useEffect(() => {
-    //     persistor.persist();
-    // }, []);
+    const isAuthenticated = store?.getState()[AUTH_SLICE_NAME]?.isAuthenticated;
+    const Layout = isAuthenticated ? CustomLayout : React.Fragment;
     return (
-        <>
-            {/* <PersistGate loading={null} persistor={persistor}> */}
+        <Layout>
                 {/* <div className="p-2 flex gap-2 bg-amber-400">
                 <Link to="/" className="[&.active]:font-bold">
                     Home
@@ -33,7 +31,6 @@ const RootComponent = () => {
             </div> */}
                 <Outlet />
                 {/*<TanStackRouterDevtools />*/}
-            {/* </PersistGate> */}
-        </>
+        </Layout>
     )
 }

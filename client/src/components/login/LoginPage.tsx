@@ -2,19 +2,17 @@ import { TLoginFormZS } from "@/@types/auth";
 import LoginForm from "@/components/login/LoginForm";
 import { loginUser } from "@/redux/slices/authSlice";
 import { AppDispatch } from "@/redux/store";
-import { redirect } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { useDispatch } from "react-redux";
 
 const LoginPage = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
     const handleLoginSubmit = async (values: TLoginFormZS) => {
         const result = await dispatch(loginUser(values));
         console.log("result", result)
         if (result) {
-            redirect({
-                to: "/dashboard",
-                throw: true,
-            })
+            navigate({to: "/dashboard"});
         }
     }
     return (

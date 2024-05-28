@@ -2,18 +2,16 @@ import { TSignupFormZS } from "@/@types/auth";
 import SignupForm from "@/components/signup/SignupForm";
 import { signupUser } from "@/redux/slices/authSlice";
 import { AppDispatch } from "@/redux/store";
-import { redirect } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { useDispatch } from "react-redux";
 
 const SignupPage = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
     const handleSignupSubmit = async (values: TSignupFormZS) => {
         const result = await dispatch(signupUser(values));
         if (result) {
-            redirect({
-                to: "/dashboard",
-                throw: true,
-            })
+            navigate({to: "/dashboard"});
         }
     }
     return (
