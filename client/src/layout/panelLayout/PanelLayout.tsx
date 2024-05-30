@@ -10,7 +10,7 @@ function PanelLayout({ children }: TPanelLayoutProps) {
     const {token: themeToken} = theme.useToken();
     return <>
         <Layout style={{ minHeight: '100vh' }}>
-            <Layout.Sider theme={"light"} collapsible collapsed={false}>
+            <Layout.Sider theme={"light"} collapsible collapsed={true}>
                 <Sidebar />
             </Layout.Sider>
             <Layout>
