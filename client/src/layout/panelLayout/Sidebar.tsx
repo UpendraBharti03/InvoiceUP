@@ -1,8 +1,7 @@
 import { useMatch, useMatches, useParams, useRouterState } from "@tanstack/react-router";
 import { Menu } from "antd";
+import { BadgeIndianRupee, CircleUserRound, LayoutDashboard } from "lucide-react";
 import { ReactNode } from "react";
-import { CgProfile } from "react-icons/cg";
-import { LuLayoutDashboard } from "react-icons/lu";
 
 type TSidebarItem = {
     key: string;
@@ -18,21 +17,21 @@ const sidebarItems: TSidebarItem[] = [
         label: "Dashboard",
         title: "Dashboard",
         activeUrls: ["/dashboard"],
-        icon: <LuLayoutDashboard />,
+        icon: <LayoutDashboard />,
     },
     {
         key: "profile",
         label: "Profile",
         title: "Profile",
         activeUrls: ["/profile"],
-        icon: <CgProfile />,
+        icon: <CircleUserRound />,
     },
     {
         key: "login",
         label: "login",
         title: "login",
         activeUrls: ["/login"],
-        icon: <CgProfile />,
+        icon: <CircleUserRound />,
     },
 ]
 
@@ -41,9 +40,11 @@ const SidebarItem = ({item}: {item: TSidebarItem}) => {
     const activePath = route.location.pathname
     console.log("pathName", route.location.pathname, item?.activeUrls?.includes(activePath))
     return (
+        <li key={item?.key} className="">
         <div className={`${item?.activeUrls?.includes(activePath) ? '[&.active]:bg-green' : ""}`}>
-            {item?.label}
+            {item?.icon}
         </div>
+        </li>
     )
 }
 
@@ -53,12 +54,12 @@ export const Sidebar = () => {
     return (
         <>
         <div className={"w-20"}>
-            <div className={"text-green-700"}>UP</div>
-            <ul className={"flex flex-col gap-2"}>
+            <div className={"flex justify-center mb-12 bg-gradient-to-t from-yellow-500 to-green-500 text-lime-700"}>
+            <BadgeIndianRupee size={48} />
+            </div>
+            <ul className={"flex flex-col gap-6 items-center"}>
                 {sidebarItems?.map((item) => (
-                    <li key={item?.key}>
-                        <SidebarItem item={item} />
-                    </li>
+                    <SidebarItem item={item} key={item?.key} />
                 ))}
             </ul>
         </div>
