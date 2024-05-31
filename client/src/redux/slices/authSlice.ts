@@ -2,7 +2,7 @@ import { TAuthPayload, TAuthSliceState, TProfile } from '@/@types/auth';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '@/redux/store';
 import { callApi } from '@/utils/apiUtils/callApi';
-import { loginRequest, signupRequest } from '@/services/authService';
+import { getProfileRequest, loginRequest, signupRequest } from '@/services/authService';
 import { extractDataFromResponse, parseApiErrorResponse } from '@/utils/apiUtils/parser';
 
 const initialState: TAuthSliceState = {
@@ -30,6 +30,17 @@ export const loginUser = createAsyncThunk(`${AUTH_SLICE_NAME}/login`, async (pay
   } catch (error) {
     return thunkAPI.rejectWithValue(parseApiErrorResponse({ error, showToast: true }));
   }
+})
+
+export const getUserProfile = createAsyncThunk(`${AUTH_SLICE_NAME}/getProfile`, async (_, thunkAPI) => {
+  const result = await callApi({
+    requestFunction: getProfileRequest(),
+    thunkApi: thunkAPI,
+  });
+  if (result?.error) {
+    return thunkAPI.rejectWithValue(result);
+  }
+  return result as TProfile;
 })
 
 export const authSlice = createSlice({

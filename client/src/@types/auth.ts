@@ -50,8 +50,8 @@ export const SignupFormZS = UserZS.omit({
     _id: true,
     name: true,
 }).extend({
-    firstName: z.string().trim(),
-    lastName: z.string().trim(),
+    firstName: z.string().trim().min(1, messages.FIRST_NAME_REQUIRED),
+    lastName: z.string().trim().min(1, messages.LAST_NAME_REQUIRED),
     confirmPassword: z.string().min(4).min(1, messages.PASSWORD_REQUIRED),
 }).superRefine((values, ctx) => {
     if (values?.confirmPassword !== values?.password) {
