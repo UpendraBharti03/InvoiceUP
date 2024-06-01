@@ -12,6 +12,8 @@ import './index.css'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
+import { ConfigProvider } from 'antd';
+import { themeColors } from '@/theme';
 
 // Create a new router instance
 const router = createRouter({
@@ -37,7 +39,17 @@ if (!rootElement.innerHTML) {
         <StrictMode>
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
-                    <RouterProvider router={router} context={{ auth: store.getState()[AUTH_SLICE_NAME] }} />
+                    <ConfigProvider
+                        theme={{
+                            token: {
+                                // Seed Token
+                                colorPrimary: themeColors.colorPrimary,
+                                borderRadius: 20,
+                            },
+                        }}
+                    >
+                        <RouterProvider router={router} context={{ auth: store.getState()[AUTH_SLICE_NAME] }} />
+                    </ConfigProvider>
                 </PersistGate>
             </Provider>
             <ToastContainer transition={Slide} progressClassName="toastProgress" bodyClassName="toastBody" />

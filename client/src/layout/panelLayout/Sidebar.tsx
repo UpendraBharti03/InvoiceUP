@@ -1,3 +1,5 @@
+import { LeafIconLogo } from "@/assets/logos/LeafIconLogo";
+import { themeColors } from "@/theme";
 import { Link, useMatch, useMatches, useParams, useRouterState } from "@tanstack/react-router";
 import { Menu } from "antd";
 import { BadgeIndianRupee, CircleUserRound, LayoutDashboard } from "lucide-react";
@@ -43,13 +45,16 @@ const SidebarItem = ({ item }: { item: TSidebarItem }) => {
 }
 
 export const Sidebar = () => {
-    const params = useMatches();
-    console.log("params", params)
     return (
         <>
-            <div className={"w-20"}>
-                <div className={"flex justify-center mb-12 bg-gradient-to-t from-yellow-500 to-green-500 text-lime-700"}>
-                    <BadgeIndianRupee size={48} />
+            <div
+                className={"w-20 h-full"}
+                style={{
+                    backgroundImage: `linear-gradient(to bottom, ${themeColors.colorPrimary2} 1%, ${themeColors.colorPrimary})`,
+                }}
+            >
+                <div className={"flex justify-center mb-12 text-white"}>
+                    <LeafIconLogo size={50} />
                 </div>
                 <ul className={"flex flex-col gap-6 items-center"}>
                     {sidebarItems?.map((item) => (
