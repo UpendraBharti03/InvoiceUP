@@ -17,8 +17,6 @@ const ProfilePage = () => {
             <div>{userDetails?.name?.fullName}</div>
             <div>Email:</div>
             <div>{userDetails?.email}</div>
-            <div>Name:</div>
-            <div>Upendra</div>
         </div>
         </div>
     )

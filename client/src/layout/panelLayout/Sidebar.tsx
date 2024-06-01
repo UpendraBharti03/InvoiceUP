@@ -3,7 +3,7 @@ import { cn } from "@/libs/ant-ui";
 import { logoutUser } from "@/redux/slices/authSlice";
 import { AppDispatch } from "@/redux/store";
 import { themeColors } from "@/theme";
-import { Link, redirect, useMatch, useMatches, useParams, useRouterState } from "@tanstack/react-router";
+import { Link, redirect, useMatch, useMatches, useParams, useRouter, useRouterState } from "@tanstack/react-router";
 import { Menu, Popconfirm, Tooltip, theme } from "antd";
 import { CircleUserRound, LayoutDashboard, LogOutIcon } from "lucide-react";
 import { ReactNode } from "react";
@@ -57,15 +57,13 @@ const SidebarItem = ({ item }: { item: TSidebarItem }) => {
 
 export const Sidebar = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const router = useRouter();
 
     const handleLogout = async () => {
         const result = await dispatch(logoutUser());
-        // if (result) {
-        //     redirect({
-        //         to: '/login',
-        //         throw: true,
-        //       })
-        // }
+        if (result) {
+            router.invalidate();
+        }
     }
 
     return (
