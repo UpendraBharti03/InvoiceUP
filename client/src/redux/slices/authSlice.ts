@@ -2,7 +2,7 @@ import { TAuthPayload, TAuthSliceState, TProfile } from '@/@types/auth';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '@/redux/store';
 import { callApi } from '@/utils/apiUtils/callApi';
-import { getProfileRequest, loginRequest, signupRequest } from '@/services/authService';
+import { getProfileRequest, loginRequest, logoutRequest, signupRequest } from '@/services/authService';
 import { extractDataFromResponse, parseApiErrorResponse } from '@/utils/apiUtils/parser';
 
 const initialState: TAuthSliceState = {
@@ -30,7 +30,22 @@ export const loginUser = createAsyncThunk(`${AUTH_SLICE_NAME}/login`, async (pay
   } catch (error) {
     return thunkAPI.rejectWithValue(parseApiErrorResponse({ error, showToast: true }));
   }
-})
+});
+
+export const logoutUser = createAsyncThunk(`${AUTH_SLICE_NAME}/logout`, async (_, thunkAPI) => {
+  // @ts-ignore
+  const accessToken = thunkAPI.getState()[AUTH_SLICE_NAME].accessToken;
+  const response = await callApi({
+      requestFunction: logoutRequest({ token: accessToken }),
+      showToastOnSuccess: false,
+      showToastOnError: false,
+      thunkApi: thunkAPI,
+  });
+  if (response?.error) {
+      return thunkAPI.rejectWithValue(response);
+  }
+  return response;
+});
 
 export const getUserProfile = createAsyncThunk(`${AUTH_SLICE_NAME}/getProfile`, async (_, thunkAPI) => {
   const result = await callApi({
@@ -48,40 +63,65 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setTokens: (state, action) => {
-        const { accessToken } = action?.payload ?? {};
-        state.accessToken = accessToken;
+      const { accessToken } = action?.payload ?? {};
+      state.accessToken = accessToken;
     },
   },
   extraReducers: (builders) => {
     builders.addCase(signupUser.pending, (state) => {
       state.isAuthLoading = true;
-    })
-    builders.addCase(signupUser.fulfilled, (state, {payload}) => {
-      const accessToken = payload?.tokens?.access?.token ?? '';
+    });
+    builders.addCase(signupUser.fulfilled, (state, { payload }) => {
+      const accessToken = payload?.tokens?.access?.token ?? "";
       state.accessToken = accessToken;
       state.isAuthenticated = true;
       state.isAuthLoading = false;
       state.user = payload?.user ?? {};
-    })
+    });
     builders.addCase(signupUser.rejected, (state) => {
       state.isAuthLoading = false;
-    })
+    });
 
     builders.addCase(loginUser.pending, (state) => {
       state.isAuthLoading = true;
-    })
-    builders.addCase(loginUser.fulfilled, (state, {payload}) => {
-      const accessToken = payload?.tokens?.access?.token ?? '';
+    });
+    builders.addCase(loginUser.fulfilled, (state, { payload }) => {
+      const accessToken = payload?.tokens?.access?.token ?? "";
       state.accessToken = accessToken;
       state.isAuthenticated = true;
       state.isAuthLoading = false;
       state.user = payload?.user ?? {};
-    })
+    });
     builders.addCase(loginUser.rejected, (state) => {
       state.isAuthLoading = false;
-    })
-  }
-})
+    });
+    builders.addCase(logoutUser.pending, (state) => {
+      state.isAuthLoading = true;
+    });
+    builders.addCase(logoutUser.fulfilled, (state) => {
+      state.isAuthLoading = false;
+      state.isAuthenticated = false;
+      state.accessToken = "";
+      state.user = null;
+    });
+    builders.addCase(logoutUser.rejected, (state) => {
+      state.isAuthLoading = false;
+      state.isAuthenticated = false;
+      state.accessToken = "";
+      state.user = null;
+    });
+    builders.addCase(getUserProfile.pending, (state) => {
+      state.isAuthLoading = true;
+    });
+    builders.addCase(getUserProfile.fulfilled, (state, { payload }) => {
+      state.isAuthLoading = false;
+      state.user = payload.user;
+    });
+    builders.addCase(getUserProfile.rejected, (state) => {
+      state.isAuthLoading = false;
+    });
+  },
+});
 
 // Action creators are generated for each case reducer function
 // @ts-ignore - TODO: type check

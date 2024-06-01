@@ -11,6 +11,7 @@ export default {
       colors: {
         'color-primary': themeColors.colorPrimary,
         'color-primary-2': themeColors.colorPrimary2,
+        'color-bg-layout': themeColors.colorBgLayout,
       }
     },
   },

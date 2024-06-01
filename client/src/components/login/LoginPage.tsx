@@ -27,8 +27,8 @@ const LoginPage = () => {
                 <div className={"text-white"}>
                     <LeafIconLogo />
                 </div>
-                <div className={"flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md"}>
-                    <div className={"flex items-center justify-center"}><span className={"text-lg font-semibold text-color-primary"}>InvoiceUP</span></div>
+                <div className={"flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-2xl w-full max-w-md"}>
+                    <div className={"flex items-center justify-center mb-2"}><span className={"text-lg font-semibold text-color-primary"}>InvoiceUP</span></div>
                     <div>
                         <LoginForm initialValues={{
                             email: '',

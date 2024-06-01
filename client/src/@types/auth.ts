@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { UserZS } from "@/@types/zodSchema/userZS";
+import { TUserZS, UserZS } from "@/@types/zodSchema/userZS";
 import { messages } from "@/messages";
 
 export type TAuthPayload = {
@@ -9,20 +9,11 @@ export type TAuthPayload = {
     password: string;
 }
 
-export type TUser = {
-    _id: string;
-    name: {
-        firstName: string;
-        lastName: string;
-    };
-    email: string;
-}
-
 export type TAuthSliceState = {
     isAuthenticated: boolean,
     isAuthLoading: boolean,
     accessToken: string,
-    user: TUser | null,
+    user: TUserZS | null,
 }
 
 export type TTokenAndExpires = {
@@ -35,7 +26,7 @@ export type TTokens = {
 }
 
 export type TProfile = {
-    user: TUser;
+    user: TUserZS;
     tokens: TTokens;
 }
 

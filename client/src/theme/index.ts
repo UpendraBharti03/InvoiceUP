@@ -4,6 +4,8 @@ export const themeColors = {
     // colorPrimary: "#112733",
     colorPrimary: "#00684a",
     colorPrimary2: "#023430",
+    colorSecondary: "#112733",
+    colorBgLayout: "#f7fffb",
     // --mdb-chartsGreen1: #12824d;
     // --mdb-chartsOrange1: #d83713;
     // --mdb-lgCodeLightGreenString: #35de7b;

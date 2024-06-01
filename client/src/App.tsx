@@ -44,6 +44,7 @@ if (!rootElement.innerHTML) {
                             token: {
                                 // Seed Token
                                 colorPrimary: themeColors.colorPrimary,
+                                colorBgLayout: themeColors.colorBgLayout,
                                 borderRadius: 20,
                             },
                         }}

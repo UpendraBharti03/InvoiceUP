@@ -11,14 +11,14 @@ const LoginFormContent = () => {
         <div className={"h-full flex flex-col"}>
             <Row gutter={10}>
                 <Col span={24}>
-                    <ATextField name="email" label="Email" />
+                    <ATextField name="email" label="Email" placeholder="Enter your email" />
                 </Col>
                 <Col span={24}>
-                    <APasswordField name="password" label="Password" />
+                    <APasswordField name="password" label="Password" placeholder="Enter your password" />
                 </Col>
 
                 <Col span={24}>
-                    <div className={"flex items-center justify-center"}>
+                    <div className={"flex items-center justify-center mt-4"}>
                         <AButton type="primary" loading={isSubmitting} htmlType="submit">
                             Login
                         </AButton>

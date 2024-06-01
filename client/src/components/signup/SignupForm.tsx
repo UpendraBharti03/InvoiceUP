@@ -10,24 +10,24 @@ const SignupFormContent = () => {
     return (
         <div className={"h-full flex flex-col"}>
             <Row gutter={10}>
-            <Col span={12}>
-                    <ATextField name="firstName" label="First name" />
+            <Col xs={24} sm={12}>
+                    <ATextField name="firstName" label="First name" placeholder="Enter first your name" />
                 </Col>
-                <Col span={12}>
-                    <ATextField name="lastName" label="Last name" />
-                </Col>
-                <Col span={24}>
-                    <ATextField name="email" label="Email" />
+                <Col xs={24} sm={12}>
+                    <ATextField name="lastName" label="Last name" placeholder="Enter your last name" />
                 </Col>
                 <Col span={24}>
-                    <APasswordField name="password" label="Password" />
+                    <ATextField name="email" label="Email" placeholder="Enter your email" />
                 </Col>
                 <Col span={24}>
-                    <APasswordField name="confirmPassword" label="Confirm password" />
+                    <APasswordField name="password" label="Password" placeholder="Enter your password" />
+                </Col>
+                <Col span={24}>
+                    <APasswordField name="confirmPassword" label="Confirm password" placeholder="Enter password again" />
                 </Col>
 
                 <Col span={24}>
-                    <div className={"flex items-center justify-center"}>
+                    <div className={"flex items-center justify-center mt-4"}>
                         <AButton type="primary" loading={isSubmitting} htmlType="submit">
                             Signup
                         </AButton>
