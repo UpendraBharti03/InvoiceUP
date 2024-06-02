@@ -23,7 +23,7 @@ const signUpHandler = async (req: Request, res: Response) => {
     try {
         session.startTransaction();
 
-        const user = await createUser({ userBody });
+        const user = await createUser({ userBody, session });
         const tokens = await generateAuthToken({ user });
 
         await session.commitTransaction();
