@@ -46,3 +46,15 @@ export const getUserByEmail = async ({email}: {email: string}) => {
     const user = await User.findOne({normalizedEmail});
     return user;
 }
+
+export const updateUserById = async ({userId, payload}:{userId: mongoose.Types.ObjectId; payload: IUser}): Promise<IUser | null> => {
+    const user = await getUserById({userId});
+    if (!user) {
+      throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    }
+    if (payload.email && (await isEmailTaken({email: payload.email}))) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
+    }
+    const updatedUser = await User.findOneAndUpdate({_id: userId}, payload, { new: true })
+    return updatedUser;
+  };

@@ -8,7 +8,7 @@ niv.bailable(false);
 interface IValidationItem {
     rules: object,
     messages?: object,
-    niceNames: object
+    niceNames?: object
 }
 
 export interface ValidateMiddlewareParams {
@@ -39,7 +39,7 @@ export const validate = (params:ValidateMiddlewareParams) => async (req: Request
     if(isObject(body)){
         const {rules, messages, niceNames} = body;
         const validator = new niv.Validator(req.body ?? {}, rules);
-        if(isObject(messages)){
+        if(isObject(messages) && niceNames){
             validator.niceNames(niceNames)
         }
         if(isObject(messages)){
