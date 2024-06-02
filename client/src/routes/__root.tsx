@@ -2,14 +2,18 @@ import { TAuthSliceState } from '@/@types/auth';
 import CustomLayout from '@/layout/Layout';
 import { AUTH_SLICE_NAME } from '@/redux/slices/authSlice';
 import { store } from '@/redux/store';
+import { QueryClient } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { createRootRoute, createRootRouteWithContext, Link, Outlet } from '@tanstack/react-router'
+import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import React from 'react';
 
 // import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
 interface MyRouterContext {
     // The ReturnType of your useAuth hook or the value of your AuthContext
-    [AUTH_SLICE_NAME]: TAuthSliceState
+    [AUTH_SLICE_NAME]: TAuthSliceState;
+    queryClient: QueryClient;
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
@@ -29,8 +33,9 @@ const RootComponent = () => {
                     About
                 </Link>
             </div> */}
-                <Outlet />
-                {/*<TanStackRouterDevtools />*/}
+            <Outlet />
+            <ReactQueryDevtools buttonPosition="top-right" />
+            <TanStackRouterDevtools position="bottom-right" />
         </Layout>
     )
 }

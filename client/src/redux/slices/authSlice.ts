@@ -4,6 +4,8 @@ import { RootState } from '@/redux/store';
 import { callApi } from '@/utils/apiUtils/callApi';
 import { getProfileRequest, loginRequest, logoutRequest, signupRequest } from '@/services/authService';
 import { extractDataFromResponse, parseApiErrorResponse } from '@/utils/apiUtils/parser';
+import { updateUserProfileRequest } from '@/services/userProfileService';
+import { TUserProfileFormZS } from '@/@types/profile';
 
 const initialState: TAuthSliceState = {
     isAuthenticated: false,
@@ -55,7 +57,18 @@ export const getUserProfile = createAsyncThunk(`${AUTH_SLICE_NAME}/getProfile`, 
   if (result?.error) {
     return thunkAPI.rejectWithValue(result);
   }
-  return result as TProfile;
+  return result as Pick<TProfile, "user">;
+})
+
+export const updateUserProfile = createAsyncThunk(`${AUTH_SLICE_NAME}/updateProfile`, async (payload: Omit<TUserProfileFormZS, "email" | "isEditable">, thunkAPI) => {
+  const result = await callApi({
+    requestFunction: updateUserProfileRequest(payload),
+    thunkApi: thunkAPI,
+  });
+  if (result?.error) {
+    return thunkAPI.rejectWithValue(result);
+  }
+  return result as Pick<TProfile, "user">;
 })
 
 export const authSlice = createSlice({
@@ -118,6 +131,16 @@ export const authSlice = createSlice({
       state.user = payload.user;
     });
     builders.addCase(getUserProfile.rejected, (state) => {
+      state.isAuthLoading = false;
+    });
+    builders.addCase(updateUserProfile.pending, (state) => {
+      state.isAuthLoading = true;
+    });
+    builders.addCase(updateUserProfile.fulfilled, (state, { payload }) => {
+      state.isAuthLoading = false;
+      state.user = payload.user;
+    });
+    builders.addCase(updateUserProfile.rejected, (state) => {
       state.isAuthLoading = false;
     });
   },

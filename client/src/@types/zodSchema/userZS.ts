@@ -3,8 +3,8 @@ import { messages } from "@/messages";
 
 export const NameZS = z.object({
     fullName: z.string().trim(),
-    first: z.string().trim(),
-    last: z.string().trim().optional(),
+    first: z.string().trim().min(1, messages.FIRST_NAME_REQUIRED),
+    last: z.string().trim().min(1, messages.FIRST_NAME_REQUIRED),
 })
 
 export type TNameZS = z.infer<typeof NameZS>;

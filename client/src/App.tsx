@@ -14,14 +14,19 @@ import './index.css'
 import { routeTree } from './routeTree.gen'
 import { ConfigProvider } from 'antd';
 import { themeColors } from '@/theme';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+export const queryClient = new QueryClient();
 
 // Create a new router instance
 const router = createRouter({
-    routeTree, context: {
+    routeTree,
+    context: {
         // auth will initially be undefined
         // We'll be passing down the auth state from within a React component
         [AUTH_SLICE_NAME]: undefined!,
-    }
+        queryClient,
+    },
 })
 
 // Register the router instance for type safety
@@ -39,18 +44,20 @@ if (!rootElement.innerHTML) {
         <StrictMode>
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
-                    <ConfigProvider
-                        theme={{
-                            token: {
-                                // Seed Token
-                                colorPrimary: themeColors.colorPrimary,
-                                colorBgLayout: themeColors.colorBgLayout,
-                                borderRadius: 20,
-                            },
-                        }}
-                    >
-                        <RouterProvider router={router} context={{ auth: store.getState()[AUTH_SLICE_NAME] }} />
-                    </ConfigProvider>
+                    <QueryClientProvider client={queryClient}>
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    // Seed Token
+                                    colorPrimary: themeColors.colorPrimary,
+                                    colorBgLayout: themeColors.colorBgLayout,
+                                    borderRadius: 20,
+                                },
+                            }}
+                        >
+                            <RouterProvider router={router} context={{ auth: store.getState()[AUTH_SLICE_NAME] }} />
+                        </ConfigProvider>
+                    </QueryClientProvider>
                 </PersistGate>
             </Provider>
             <ToastContainer transition={Slide} progressClassName="toastProgress" bodyClassName="toastBody" />

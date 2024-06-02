@@ -13,7 +13,7 @@ export type TAuthSliceState = {
     isAuthenticated: boolean,
     isAuthLoading: boolean,
     accessToken: string,
-    user: TUserZS | null,
+    user: Omit<TUserZS, "password"> | null,
 }
 
 export type TTokenAndExpires = {
@@ -26,7 +26,7 @@ export type TTokens = {
 }
 
 export type TProfile = {
-    user: TUserZS;
+    user: Omit<TUserZS, "password">;
     tokens: TTokens;
 }
 
