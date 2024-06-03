@@ -13,3 +13,18 @@ export const createProductValidation : ValidateMiddlewareParams = {
         },
     },
 }
+
+export const updateProductValidation : ValidateMiddlewareParams = {
+    body: {
+        rules: {
+            '_id': 'required|mongoId',
+            'userId': 'required|mongoId',
+            'productName': 'required|string',
+            'productDescription': 'string',
+            'measurementUnit': 'required|string',
+            'price': 'required|numeric',
+            'taxRate': 'numeric',
+            'totalAmount': 'numeric',
+        },
+    },
+}
