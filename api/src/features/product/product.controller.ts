@@ -2,7 +2,7 @@ import { Response } from "express";
 import httpStatus from "http-status";
 import mongoose from "mongoose";
 import { IProduct } from "@src/features/product/product.model";
-import { createProduct, getProductDetails, updateProduct } from "@src/features/product/product.service";
+import { createProduct, getProductDetails, getProductsList, updateProduct } from "@src/features/product/product.service";
 
 const createProductHandler = async (req: any, res: Response) => {
     const reqBody = req.body;
@@ -146,4 +146,24 @@ const getProductDetailsHandler = async (req: any, res: Response) => {
     })
 }
 
-export default {createProductHandler, updateProductHandler, getProductDetailsHandler};
+const getProductsListHandler = async (req: any, res: Response) => {
+    const reqBody = req.body;
+    const userId = req.user._id;
+
+    const payload = {
+        page: reqBody?.page ?? 1,
+        limit: reqBody?.limit ?? 'ALL',
+        filter: {},
+    }
+
+    const results = await getProductsList(payload);
+
+    return res.sendJSONResponse({
+        data: {
+            results,
+        },
+        message: "Product details fetched successfully"
+    })
+}
+
+export default {createProductHandler, updateProductHandler, getProductDetailsHandler, getProductsListHandler};

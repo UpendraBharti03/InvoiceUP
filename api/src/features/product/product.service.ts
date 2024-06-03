@@ -16,7 +16,18 @@ export const updateProduct = async ({_id, payload}: {_id: mongoose.Types.ObjectI
     return productObj;
 }
 
-export const getProductsList = async ({userId}: {userId: mongoose.Types.ObjectId}) => {
-    const productsList = await Product.find({userId});
+export const getProductsList = async ({page, limit, filter, staticFilter}: {page: number; limit: number; filter: any; staticFilter: any}) => {
+
+    const pipeline = [
+        {
+            $match: {
+                ...staticFilter,
+                ...filter,
+            }
+        },
+        
+    ];
+
+    const productsList = await Product.aggregate([...pipeline]);
     return productsList;
 }
