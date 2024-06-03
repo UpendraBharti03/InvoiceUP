@@ -5,11 +5,11 @@ export const createProductValidation : ValidateMiddlewareParams = {
         rules: {
             'userId': 'required|mongoId',
             'productName': 'required|string',
-            // 'productDescription': 'string',
+            'productDescription': 'string',
             'measurementUnit': 'required|string',
-            'price': 'required|number',
-            // 'taxRate': 'number',
-            // 'totalAmount': 'number',
+            'price': 'required|numeric',
+            'taxRate': 'numeric',
+            'totalAmount': 'numeric',
         },
     },
 }
