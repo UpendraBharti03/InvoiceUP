@@ -12,7 +12,8 @@ interface IValidationItem {
 }
 
 export interface ValidateMiddlewareParams {
-    body: IValidationItem
+    body?: IValidationItem;
+    query?: IValidationItem;
 }
 
 interface IErrorItem {
@@ -34,18 +35,23 @@ const nivErrorsToString = (errors:IErrors)=>{
     return errorMsg
 }
 
+const nivValidator = async ({validationInput, validationParam}: {validationInput: any; validationParam: IValidationItem}) => {
+    const {rules, messages, niceNames} = validationParam;
+    const validator = new niv.Validator(validationInput ?? {}, rules);
+    if(isObject(messages) && niceNames){
+        validator.niceNames(niceNames)
+    }
+    if(isObject(messages)){
+        validator.customMessages(messages)
+    }
+    const matched = await validator.check();
+    return {matched, validator};
+}
+
 export const validate = (params:ValidateMiddlewareParams) => async (req: Request, res: Response, next: NextFunction) => {
-    const {body} = params;
-    if(isObject(body)){
-        const {rules, messages, niceNames} = body;
-        const validator = new niv.Validator(req.body ?? {}, rules);
-        if(isObject(messages) && niceNames){
-            validator.niceNames(niceNames)
-        }
-        if(isObject(messages)){
-            validator.customMessages(messages)
-        }
-        const matched = await validator.check();
+    const {body, query} = params;
+    if(body && isObject(body)){
+        const {matched, validator} = await nivValidator({validationInput: req.body, validationParam: body});
         if(!matched){
             return res.sendJSONResponse({
                 code: httpStatus.BAD_REQUEST,
@@ -56,6 +62,20 @@ export const validate = (params:ValidateMiddlewareParams) => async (req: Request
                 }
             })
         }
-        next()
+        
     }
+    if (query && isObject(query)) {
+        const {matched, validator} = await nivValidator({validationInput: req.query, validationParam: query});
+        if(!matched){
+            return res.sendJSONResponse({
+                code: httpStatus.BAD_REQUEST,
+                success: false,
+                message: nivErrorsToString(validator.errors),
+                data:{
+                    errors: validator.errors
+                }
+            })
+        }
+    }
+    next()
 }

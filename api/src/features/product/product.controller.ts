@@ -21,7 +21,7 @@ const createProductHandler = async (req: any, res: Response) => {
     const payload: Omit<IProduct, "_id"> = {
         userId,
         productName: reqBody?.productName,
-        productDescription: reqBody?.productDescription,
+        productDescription: reqBody?.productDescription ?? "",
         measurementUnit: reqBody?.measurementUnit,
         taxRate: reqBody?.taxRate ?? 0,
         price: reqBody?.price,
@@ -58,7 +58,7 @@ const createProductHandler = async (req: any, res: Response) => {
 const updateProductHandler = async (req: any, res: Response) => {
     const reqBody = req.body;
     const userId = req.user._id;
-    const productId = req.param._id;
+    const productId = req.params._id;
 
     if (!userId) {
         return res.sendJSONResponse({
@@ -68,7 +68,7 @@ const updateProductHandler = async (req: any, res: Response) => {
         });
     }
 
-    if (!porductId) {
+    if (!productId) {
         return res.sendJSONResponse({
             success: false,
             code: httpStatus.BAD_REQUEST,
@@ -76,9 +76,9 @@ const updateProductHandler = async (req: any, res: Response) => {
         });
     }
 
-    const product = await getProductDetails({_id: productId});
+    const oldProduct = await getProductDetails({_id: productId});
 
-    if (!product) {
+    if (!oldProduct) {
         return res.sendJSONResponse({
             success: false,
             code: httpStatus.BAD_REQUEST,
@@ -86,16 +86,18 @@ const updateProductHandler = async (req: any, res: Response) => {
         });
     }
 
-    const totalAmount = reqBody?.price + (reqBody?.price * (reqBody?.taxRate ?? 0))/100;
+    const price = reqBody?.price ?? oldProduct?.price;
+    const taxRate = reqBody?.taxRate ?? oldProduct?.taxRate ?? 0;
+    const totalAmount = price + (price * taxRate)/100;
 
     const payload: Omit<IProduct, "_id"> = {
         userId,
-        productName: reqBody?.productName,
-        productDescription: reqBody?.productDescription,
-        measurementUnit: reqBody?.measurementUnit,
-        taxRate: reqBody?.taxRate ?? 0,
-        price: reqBody?.price,
-        totalAmount: totalAmount,
+        productName: reqBody?.productName ?? oldProduct?.productName,
+        productDescription: reqBody?.productDescription ?? oldProduct?.productDescription ?? "",
+        measurementUnit: reqBody?.measurementUnit ?? oldProduct?.measurementUnit,
+        taxRate,
+        price,
+        totalAmount,
     };
 
     const updatedProduct = await updateProduct({_id: productId, payload});
@@ -120,7 +122,7 @@ const getProductDetailsHandler = async (req: any, res: Response) => {
         });
     }
 
-    if (!porductId) {
+    if (!productId) {
         return res.sendJSONResponse({
             success: false,
             code: httpStatus.BAD_REQUEST,
@@ -154,6 +156,9 @@ const getProductsListHandler = async (req: any, res: Response) => {
         page: reqBody?.page ?? 1,
         limit: reqBody?.limit ?? 'ALL',
         filter: {},
+        staticFilter: {
+            userId,
+        }
     }
 
     const results = await getProductsList(payload);

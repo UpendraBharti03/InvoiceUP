@@ -11,7 +11,7 @@ const router = express.Router();
 router.post('/create', authenticate, validate(createProductValidation), catchAsync(productController?.createProductHandler));
 
 // update product route
-router.put('/update/:_id', authenticate, validate(updateProductValidation), catchAsync(productController?.updateProductHandler));
+router.put('/:_id', authenticate, validate(updateProductValidation), catchAsync(productController?.updateProductHandler));
 
 // get product details route
 router.get('/', authenticate, validate(updateProductValidation), catchAsync(productController?.getProductDetailsHandler));
