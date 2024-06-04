@@ -1,5 +1,6 @@
 import Product, { IProduct } from "@src/features/product/product.model";
 import { TPaginatedResponse, TListParams } from "@src/@types/common"; 
+import { prepareSearchFilterArray } from "@src/utils/helpers";
 import mongoose from 'mongoose';
 
 export const createProduct = async ({payload, session}: {payload: Omit<IProduct, "_id">, session?: any}) => {
@@ -17,18 +18,21 @@ export const updateProduct = async ({_id, payload}: {_id: mongoose.Types.ObjectI
     return productObj;
 }
 
-export const getProductsList = async ({search = "", page = 1, limit = 10, filter = {}, staticFilter = {}}: TListParams<Pick<IProduct, "productName" | "productDescription">, Pick<IProduct, "userId">>) => {
+export const getProductsList = async ({search = "", page = 1, limit = 10, filter = {}, staticFilter = {}}: TListParams<Pick<IProduct, "productName" | "productDescription"> | {}, Pick<IProduct, "userId"> | {}>) => {
     const searchRegex = new RegExp(search, 'gi');
     const skip = (page - 1) * limit;
 
-    const matchFilter = {
-        $or: prepareSearchFilterArray(["productName", "productDescription"], searchRegex),
+    const matchFilter: any = {
+        $or: prepareSearchFilterArray({
+            keys: ["productName", "productDescription"],
+            regex: searchRegex,
+        }),
     };
     Object.entries(filter).forEach(([key, value]) => {
         matchFilter[key] = value;
     });
 
-    const pipeline = [
+    const pipeline: any[] = [
         {
             $match: {
                 ...matchFilter,

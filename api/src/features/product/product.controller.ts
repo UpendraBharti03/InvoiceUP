@@ -163,7 +163,7 @@ const getProductsListHandler = async (req: any, res: Response) => {
         },
     }
 
-    const results: TPaginatedResponse<IProduct> = await getProductsList(payload);
+    const results = await getProductsList(payload);
 
     return res.sendJSONResponse({
         data: results,
