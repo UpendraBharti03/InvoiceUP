@@ -15,6 +15,7 @@ import { Route as appIndexImport } from './routes/(app)/index'
 import { Route as authSignupImport } from './routes/(auth)/signup'
 import { Route as authLoginImport } from './routes/(auth)/login'
 import { Route as appProfileImport } from './routes/(app)/profile'
+import { Route as appProductsImport } from './routes/(app)/products'
 import { Route as appDashboardImport } from './routes/(app)/dashboard'
 
 // Create/Update Routes
@@ -39,6 +40,11 @@ const appProfileRoute = appProfileImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const appProductsRoute = appProductsImport.update({
+  path: '/products',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const appDashboardRoute = appDashboardImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRoute,
@@ -50,6 +56,10 @@ declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/(app)/dashboard': {
       preLoaderRoute: typeof appDashboardImport
+      parentRoute: typeof rootRoute
+    }
+    '/(app)/products': {
+      preLoaderRoute: typeof appProductsImport
       parentRoute: typeof rootRoute
     }
     '/(app)/profile': {
@@ -75,6 +85,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   appDashboardRoute,
+  appProductsRoute,
   appProfileRoute,
   authLoginRoute,
   authSignupRoute,

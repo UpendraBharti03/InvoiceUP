@@ -16,7 +16,7 @@ router.put('/:_id', authenticate, validate(updateProductValidation), catchAsync(
 // get product details route
 router.get('/', authenticate, validate(getProductDetailsValidation), catchAsync(productController?.getProductDetailsHandler));
 
-// get products list route
-router.get('/list', authenticate, validate(getProductsListValidation), catchAsync(productController?.getProductsListHandler));
+// products list route
+router.post('/list', authenticate, validate(getProductsListValidation), catchAsync(productController?.getProductsListHandler));
 
 export default router;
