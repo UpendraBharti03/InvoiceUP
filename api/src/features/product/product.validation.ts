@@ -3,7 +3,6 @@ import { ValidateMiddlewareParams } from "@src/middlewares/validate";
 export const createProductValidation : ValidateMiddlewareParams = {
     body: {
         rules: {
-            'userId': 'required|mongoId',
             'productName': 'required|string',
             'productDescription': 'string',
             'measurementUnit': 'required|string',
@@ -17,7 +16,6 @@ export const createProductValidation : ValidateMiddlewareParams = {
 export const updateProductValidation : ValidateMiddlewareParams = {
     body: {
         rules: {
-            'userId': 'required|mongoId',
             'productName': 'string',
             'productDescription': 'string',
             'measurementUnit': 'string',
@@ -39,8 +37,8 @@ export const getProductDetailsValidation : ValidateMiddlewareParams = {
 export const getProductsListValidation : ValidateMiddlewareParams = {
     body: {
         rules: {
-            'page': 'number',
-            'limit': 'number',
+            'page': 'numeric',
+            'limit': 'numeric',
             'search': 'string',
             'filter': 'object',
         },

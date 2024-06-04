@@ -4,10 +4,10 @@ import { FormikForm, ATextField, AButton, ASelectField } from "@ant-ui";
 import { validateZodSchemaFormik } from "@ui-helpers";
 import { ProductFormZS, TProductFormZS } from "@/@types/product";
 import { ProductMeasurementUnit } from "@/@types/zodSchema/productZS";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 const ProductFormContent = () => {
-    const { isSubmitting } = useFormikContext<TProductFormZS>();
+    const { values, isSubmitting, setFieldValue } = useFormikContext<TProductFormZS>();
 
     const productMeasurementUnitOptions = useMemo(() => {
         return Object.values(ProductMeasurementUnit)?.map((unit) => ({
@@ -15,6 +15,11 @@ const ProductFormContent = () => {
             value: unit,
         }))
     }, [])
+
+    useEffect(() => {
+        const totalAmount = values?.price + (values?.price * (values?.taxRate ?? 0))/100;
+        setFieldValue("totalAmount", totalAmount);
+    }, [values?.price, values?.taxRate])
 
     return (
         <>
@@ -29,7 +34,7 @@ const ProductFormContent = () => {
                     <ASelectField name="measurementUnit" label="Measurement unit" placeholder="Select measurement unit" options={productMeasurementUnitOptions} />
                 </Col>
                 <Col span={24}>
-                    <ATextField type={"number"} name="price" label="Price" placeholder="Enter product price" />
+                    <ATextField type={"number"} min={0} name="price" label="Price" placeholder="Enter product price" />
                 </Col>
                 <Col span={24}>
                     <ATextField type={"number"} name="taxRate" label="Tax rate (in %)" placeholder="Enter tax rate in %" />

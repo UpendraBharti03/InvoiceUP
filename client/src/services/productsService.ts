@@ -14,7 +14,7 @@ export const getProductDetailsRequest = ({_id}: Pick<TProductZS, "_id">) => (axi
 
 export const getProductsListRequest = (payload: TListParams<Pick<TProductZS, "productName" | "productDescription"> | {}>) => (axiosInstance: Axios) => axiosInstance.post(`${API_BASE_URL}/product/list`, payload)
 
-export const useCreateProduct = async () => {
+export const useCreateProduct = () => {
     return useMutation({
         mutationFn: async (payload: Omit<TProductZS, "_id" | "userId">) => {
             const result = await callApi({
@@ -30,7 +30,7 @@ export const useCreateProduct = async () => {
     })
 }
 
-export const useUpdateProduct = async () => {
+export const useUpdateProduct = () => {
     return useMutation({
         mutationFn: async (payload: Omit<TProductZS, "userId">) => {
             const result = await callApi({
@@ -46,7 +46,7 @@ export const useUpdateProduct = async () => {
     })
 }
 
-export const useGetProductDetails = async (payload: Pick<TProductZS, "_id">) => {
+export const useGetProductDetails = (payload: Pick<TProductZS, "_id">) => {
     return useQuery({
         queryKey: [queryKeys.PRODUCTS],
         queryFn: async () => {
@@ -59,7 +59,7 @@ export const useGetProductDetails = async (payload: Pick<TProductZS, "_id">) => 
     })
 }
 
-export const useGetProductsList = async ({search = "", page = 1, limit = 10, filter = {}}: TListParams<Pick<TProductZS, "productName" | "productDescription"> | {}>) => {
+export const useGetProductsList = ({search = "", page = 1, limit = 10, filter = {}}: TListParams<Pick<TProductZS, "productName" | "productDescription"> | {}>) => {
     return useQuery({
         queryKey: [queryKeys.PRODUCTS, search, page, limit, filter],
         queryFn: async () => {

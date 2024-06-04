@@ -5,7 +5,7 @@ import { AppDispatch } from "@/redux/store";
 import { themeColors } from "@/theme";
 import { Link, redirect, useMatch, useMatches, useParams, useRouter, useRouterState } from "@tanstack/react-router";
 import { Menu, Popconfirm, Tooltip, theme } from "antd";
-import { CircleUserRound, LayoutDashboard, LogOutIcon } from "lucide-react";
+import { CircleUserRound, LayoutDashboard, LogOutIcon, Store } from "lucide-react";
 import { ReactNode } from "react";
 import { useDispatch } from "react-redux";
 
@@ -22,8 +22,15 @@ const sidebarItems: TSidebarItem[] = [
         key: "dashboard",
         label: "Dashboard",
         route: "/dashboard",
-        activeUrls: ["/dashboard", "/dashboard/"],
+        activeUrls: ["/dashboard"],
         icon: <LayoutDashboard />,
+    },
+    {
+        key: "products",
+        label: "Products",
+        route: "/products",
+        activeUrls: ["/products"],
+        icon: <Store />,
     },
     {
         key: "profile",
