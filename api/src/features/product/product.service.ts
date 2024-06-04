@@ -1,4 +1,5 @@
 import Product, { IProduct } from "@src/features/product/product.model";
+import { TPaginatedResponse, TListParams } from "@src/@types/common"; 
 import mongoose from 'mongoose';
 
 export const createProduct = async ({payload, session}: {payload: Omit<IProduct, "_id">, session?: any}) => {
@@ -16,18 +17,66 @@ export const updateProduct = async ({_id, payload}: {_id: mongoose.Types.ObjectI
     return productObj;
 }
 
-export const getProductsList = async ({page, limit, filter, staticFilter}: {page: number; limit: number; filter: any; staticFilter: any}) => {
+export const getProductsList = async ({search = "", page = 1, limit = 10, filter = {}, staticFilter = {}}: TListParams<Pick<IProduct, "productName" | "productDescription">, Pick<IProduct, "userId">>) => {
+    const searchRegex = new RegExp(search, 'gi');
+    const skip = (page - 1) * limit;
+
+    const matchFilter = {
+        $or: prepareSearchFilterArray(["productName", "productDescription"], searchRegex),
+    };
+    Object.entries(filter).forEach(([key, value]) => {
+        matchFilter[key] = value;
+    });
 
     const pipeline = [
         {
             $match: {
+                ...matchFilter,
                 ...staticFilter,
-                ...filter,
-            }
+            },
         },
-        
+        // {
+        //     $project: {
+        //         userId: 0,
+        //     },
+        // },
+        {
+            $sort: {
+                _id: -1,
+            },
+        },
+    ];
+    const paginationPipeline = [
+        {
+            $skip: skip,
+        },
+        {
+            $limit: limit,
+        },
+    ];
+    const countPipeline = [
+        {
+            $count: 'totalResults',
+        },
     ];
 
-    const productsList = await Product.aggregate([...pipeline]);
-    return productsList;
+    const results = await Product.aggregate([...pipeline, ...paginationPipeline]);
+    const totalResponse = await Product.aggregate([...pipeline, ...countPipeline]);
+    const totalResults = totalResponse?.[0]?.totalResults ?? 0;
+    const totalPages = Math.ceil(totalResults / limit);
+    const fromTo = {
+        from: page == 1 ? page : page * limit + 1 - limit,
+        to: page == 1 ? limit : page == totalPages ? totalResults : page * limit,
+    };
+
+    const data: TPaginatedResponse<IProduct> = {
+        results,
+        totalResults,
+        totalPages,
+        page,
+        fromTo,
+        resultsInCurrentPage: results.length,
+    };
+
+    return data;
 }

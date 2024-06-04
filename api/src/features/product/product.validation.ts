@@ -27,3 +27,22 @@ export const updateProductValidation : ValidateMiddlewareParams = {
         },
     },
 }
+
+export const getProductDetailsValidation : ValidateMiddlewareParams = {
+    query: {
+        rules: {
+            '_id': 'required|mongoId',
+        },
+    },
+}
+
+export const getProductsListValidation : ValidateMiddlewareParams = {
+    body: {
+        rules: {
+            'page': 'number',
+            'limit': 'number',
+            'search': 'string',
+            'filter': 'object',
+        },
+    },
+}

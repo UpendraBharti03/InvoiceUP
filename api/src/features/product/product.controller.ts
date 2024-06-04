@@ -3,6 +3,7 @@ import httpStatus from "http-status";
 import mongoose from "mongoose";
 import { IProduct } from "@src/features/product/product.model";
 import { createProduct, getProductDetails, getProductsList, updateProduct } from "@src/features/product/product.service";
+import { TPaginatedResponse, TListParams } from "@src/@types/common"; 
 
 const createProductHandler = async (req: any, res: Response) => {
     const reqBody = req.body;
@@ -152,22 +153,21 @@ const getProductsListHandler = async (req: any, res: Response) => {
     const reqBody = req.body;
     const userId = req.user._id;
 
-    const payload = {
+    const payload: TListParams<object, Pick<IProduct, "userId">> = {
+        search: reqBody?.search ?? '',
         page: reqBody?.page ?? 1,
-        limit: reqBody?.limit ?? 'ALL',
-        filter: {},
+        limit: reqBody?.limit,
+        filter: reqBody?.filter ?? {},
         staticFilter: {
             userId,
-        }
+        },
     }
 
-    const results = await getProductsList(payload);
+    const results: TPaginatedResponse<IProduct> = await getProductsList(payload);
 
     return res.sendJSONResponse({
-        data: {
-            results,
-        },
-        message: "Product details fetched successfully"
+        data: results,
+        message: "Products List fetched successfully"
     })
 }
 

@@ -3,7 +3,7 @@ import { validate } from "@src/middlewares/validate";
 import catchAsync from "@src/utils/catchAsync";
 import { authenticate } from "@src/features/auth/auth.middleware";
 import productController from "@src/features/product/product.controller";
-import { createProductValidation, updateProductValidation } from "@src/features/product/product.validation";
+import { createProductValidation, updateProductValidation, getProductDetailsValidation, getProductsListValidation } from "@src/features/product/product.validation";
 
 const router = express.Router();
 
@@ -14,7 +14,9 @@ router.post('/create', authenticate, validate(createProductValidation), catchAsy
 router.put('/:_id', authenticate, validate(updateProductValidation), catchAsync(productController?.updateProductHandler));
 
 // get product details route
-router.get('/', authenticate, validate(updateProductValidation), catchAsync(productController?.getProductDetailsHandler));
+router.get('/', authenticate, validate(getProductDetailsValidation), catchAsync(productController?.getProductDetailsHandler));
 
+// get products list route
+router.get('/list', authenticate, validate(getProductsListValidation), catchAsync(productController?.getProductsListHandler));
 
 export default router;
