@@ -12,4 +12,8 @@ export const modelsInfo = {
         modelName: 'Product',
         collectionName: 'products',
     },
+    CUSTOMER: {
+        modelName: 'Customer',
+        collectionName: 'customers',
+    },
 }
