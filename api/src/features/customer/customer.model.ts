@@ -21,6 +21,9 @@ export class ICustomer {
 
     @prop({ type: String, required: true })
     public address?: string;
+
+    @prop({ type: Boolean, required: false, default: false })
+    public isDeleted?: boolean;
 }
 
 const Customer = getModelForClass(ICustomer);

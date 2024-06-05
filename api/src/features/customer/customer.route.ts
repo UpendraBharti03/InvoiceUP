@@ -16,6 +16,9 @@ router.put('/:_id', authenticate, validate(updateCustomerValidation), catchAsync
 // get customer details route
 router.get('/', authenticate, validate(getCustomerDetailsValidation), catchAsync(customerController?.getCustomerDetailsHandler));
 
+// delete customer route
+router.put('/delete/:_id', authenticate, catchAsync(customerController?.deleteCustomerHandler));
+
 // customers list route
 router.post('/list', authenticate, validate(getCustomersListValidation), catchAsync(customerController?.getCustomersListHandler));
 

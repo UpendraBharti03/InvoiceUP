@@ -2,7 +2,7 @@ import { Response } from "express";
 import httpStatus from "http-status";
 import mongoose from "mongoose";
 import { ICustomer } from "@src/features/customer/customer.model";
-import { createCustomer, getCustomerDetails, getCustomersList, updateCustomer } from "@src/features/customer/customer.service";
+import { createCustomer, deleteCustomerById, getCustomerDetails, getCustomersList, updateCustomer } from "@src/features/customer/customer.service";
 import { TListParams } from "@src/@types/common";
 
 const createCustomerHandler = async (req: any, res: Response) => {
@@ -145,6 +145,45 @@ const getCustomerDetailsHandler = async (req: any, res: Response) => {
     })
 }
 
+const deleteCustomerHandler = async (req: any, res: Response) => {
+    const userId = req.user._id;
+    const customerId = req.query._id;
+
+    if (!userId) {
+        return res.sendJSONResponse({
+            success: false,
+            code: httpStatus.BAD_REQUEST,
+            message: 'No account exist.',
+        });
+    }
+
+    if (!customerId) {
+        return res.sendJSONResponse({
+            success: false,
+            code: httpStatus.BAD_REQUEST,
+            message: 'Invalid customer',
+        });
+    }
+
+    const customer = await deleteCustomerById({_id: customerId});
+
+    if (!customer) {
+        return res.sendJSONResponse({
+            success: false,
+            code: httpStatus.BAD_REQUEST,
+            message: 'Invalid customer',
+        });
+    }
+
+    return res.sendJSONResponse({
+        data: {
+            result: customer,
+        },
+        message: "Customer details deleted successfully"
+    })
+}
+
+
 const getCustomersListHandler = async (req: any, res: Response) => {
     const reqBody = req.body;
     const userId = req.user._id;
@@ -167,4 +206,4 @@ const getCustomersListHandler = async (req: any, res: Response) => {
     })
 }
 
-export default {createCustomerHandler, updateCustomerHandler, getCustomerDetailsHandler, getCustomersListHandler};
+export default {createCustomerHandler, updateCustomerHandler, getCustomerDetailsHandler, deleteCustomerHandler, getCustomersListHandler};
