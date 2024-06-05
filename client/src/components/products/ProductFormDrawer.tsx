@@ -24,7 +24,6 @@ const ProductFormDrawer = ({ open, handleClose, initialValues }: { open: boolean
         } else {
             result = await createProductMutateAsync(values);
         }
-        console.log("result", result)
         if ("error" in result && !result?.error) {
             handleClose();
         }
@@ -38,10 +37,12 @@ const ProductFormDrawer = ({ open, handleClose, initialValues }: { open: boolean
                 open={open}
                 onClose={handleClose}
             >
-                <ProductForm
-                    initialValues={initialValues?._id ? initialValues : emptyInitialValues}
-                    handleSubmit={handleProductFormSubmit}
-                />
+                {open && (
+                    <ProductForm
+                        initialValues={initialValues?._id ? initialValues : emptyInitialValues}
+                        handleSubmit={handleProductFormSubmit}
+                    />
+                )}
             </ADrawer>
         </>
     )

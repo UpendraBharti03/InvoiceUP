@@ -12,6 +12,8 @@ export const updateProductRequest = ({_id, ...payload}: Omit<TProductZS, "userId
 
 export const getProductDetailsRequest = ({_id}: Pick<TProductZS, "_id">) => (axiosInstance: Axios) => axiosInstance.get(`${API_BASE_URL}/product?_id=${_id}`)
 
+export const deleteProductRequest = ({_id}: Pick<TProductZS, "_id">) => (axiosInstance: Axios) => axiosInstance.put(`${API_BASE_URL}/product/delete/${_id}`)
+
 export const getProductsListRequest = (payload: TListParams<Pick<TProductZS, "productName" | "productDescription"> | {}>) => (axiosInstance: Axios) => axiosInstance.post(`${API_BASE_URL}/product/list`, payload)
 
 export const useCreateProduct = () => {
@@ -59,12 +61,29 @@ export const useGetProductDetails = (payload: Pick<TProductZS, "_id">) => {
     })
 }
 
+export const useDeleteProduct = () => {
+    return useMutation({
+        mutationFn: async (payload: Pick<TProductZS, "_id">) => {
+            const result = await callApi({
+                requestFunction: deleteProductRequest(payload),
+            });
+            return result as {};
+        },
+        onSuccess: (data) => {
+            if ("error" in data && !data?.error) {
+                queryClient.invalidateQueries({queryKey: [queryKeys.PRODUCTS]})
+            }
+        }
+    })
+}
+
 export const useGetProductsList = ({search = "", page = 1, limit = 10, filter = {}}: TListParams<Pick<TProductZS, "productName" | "productDescription"> | {}>) => {
     return useQuery({
         queryKey: [queryKeys.PRODUCTS, search, page, limit, filter],
         queryFn: async () => {
             const data = await callApi({
                 requestFunction: getProductsListRequest({search, page, limit, filter}),
+                showToastOnSuccess: false,
             });
             return data as TPaginatedResponse<TProductZS>;
         },

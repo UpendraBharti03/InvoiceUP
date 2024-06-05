@@ -1,20 +1,40 @@
-import { Col, Flex, Row, Spin, theme } from "antd";
-import { Edit2Icon } from "lucide-react";
+import { Col, Flex, Popconfirm, Row, Spin, theme } from "antd";
+import { Edit2Icon, Trash } from "lucide-react";
 import { LoadingOutlined } from '@ant-design/icons';
 import { AButton, ACard } from "@ant-ui";
 import { useModalState } from "@ui-helpers";
 import { TCustomerZS } from "@/@types/zodSchema/customerZS";
-import { useGetCustomersList } from "@/services/customersService";
+import { useDeleteCustomer, useGetCustomersList } from "@/services/customersService";
 import CustomerFormDrawer from "@/components/customers/CustomerFormDrawer";
 
 const CustomerItem = ({ customer }: { customer: TCustomerZS }) => {
     const { token: themeToken } = theme.useToken();
+    const { mutateAsync: deleteCustomerMutateAsync } = useDeleteCustomer();
     const { isOpen: isEditCustomerModelOpen, handleOpen: handleEditCustomerModelOpen, handleClose: handleEditCustomerModelClose } = useModalState();
+
+    const handleDeleteCustomer = async () => {
+        await deleteCustomerMutateAsync({ _id: customer?._id });
+    }
+
     return (
         <ACard
             title={customer?.name?.fullName}
             extra={
-                <AButton ghost size="small" onClick={handleEditCustomerModelOpen} icon={<Edit2Icon className={"text-color-primary w-4 h-4"} />}></AButton>
+                <div className={"flex gap-2"}>
+                    <AButton ghost size="small" onClick={handleEditCustomerModelOpen} icon={<Edit2Icon className={"text-color-primary w-4 h-4"} />}></AButton>
+                    <Popconfirm
+                        title="Delete customer?"
+                        description="Are you sure you want to delete this customer?"
+                        onConfirm={handleDeleteCustomer}
+                        okButtonProps={{
+                            danger: true,
+                        }}
+                        okText="Delete"
+                        cancelText="Cancel"
+                    >
+                        <AButton ghost size="small" icon={<Trash className={"text-red-500 w-4 h-4"} />}></AButton>
+                    </Popconfirm>
+                </div>
             }
             styles={{
                 header: {
@@ -23,7 +43,7 @@ const CustomerItem = ({ customer }: { customer: TCustomerZS }) => {
             }}
         >
             <h6>{customer?.email}</h6>
-            
+
             <CustomerFormDrawer
                 key={customer?._id}
                 open={isEditCustomerModelOpen}
@@ -64,9 +84,9 @@ const CustomersPage = () => {
                 <AButton onClick={handleAddCustomerModelOpen}>Add Customer</AButton>
                 <CustomerFormDrawer open={isAddCustomerModelOpen} handleClose={handleAddCustomerModelClose} />
             </div>
-            <Row gutter={10}>
+            <Row gutter={[10, 10]}>
                 {customersList?.results?.map((customer) => (
-                    <Col key={customer?._id} xs={1} sm={2} md={3} lg={4}>
+                    <Col key={customer?._id} xs={24} sm={12} md={6} lg={4}>
                         <CustomerItem customer={customer} />
                     </Col>
                 ))}

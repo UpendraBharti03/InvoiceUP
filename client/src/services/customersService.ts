@@ -12,6 +12,8 @@ export const updateCustomerRequest = ({_id, ...payload}: Omit<TCustomerZS, "user
 
 export const getCustomerDetailsRequest = ({_id}: Pick<TCustomerZS, "_id">) => (axiosInstance: Axios) => axiosInstance.get(`${API_BASE_URL}/customer?_id=${_id}`)
 
+export const deleteCustomerRequest = ({_id}: Pick<TCustomerZS, "_id">) => (axiosInstance: Axios) => axiosInstance.put(`${API_BASE_URL}/customer/delete/${_id}`)
+
 export const getCustomersListRequest = (payload: TListParams<Pick<TCustomerZS, "name" | "email"> | {}>) => (axiosInstance: Axios) => axiosInstance.post(`${API_BASE_URL}/customer/list`, payload)
 
 export const useCreateCustomer = () => {
@@ -59,12 +61,29 @@ export const useGetCustomerDetails = (payload: Pick<TCustomerZS, "_id">) => {
     })
 }
 
+export const useDeleteCustomer = () => {
+    return useMutation({
+        mutationFn: async (payload: Pick<TCustomerZS, "_id">) => {
+            const result = await callApi({
+                requestFunction: deleteCustomerRequest(payload),
+            });
+            return result as {};
+        },
+        onSuccess: (data) => {
+            if ("error" in data && !data?.error) {
+                queryClient.invalidateQueries({queryKey: [queryKeys.CUSTOMERS]})
+            }
+        }
+    })
+}
+
 export const useGetCustomersList = ({search = "", page = 1, limit = 10, filter = {}}: TListParams<Pick<TCustomerZS, "name" | "email"> | {}>) => {
     return useQuery({
         queryKey: [queryKeys.CUSTOMERS, search, page, limit, filter],
         queryFn: async () => {
             const data = await callApi({
                 requestFunction: getCustomersListRequest({search, page, limit, filter}),
+                showToastOnSuccess: false,
             });
             return data as TPaginatedResponse<TCustomerZS>;
         },

@@ -40,10 +40,12 @@ const CustomerFormDrawer = ({ open, handleClose, initialValues }: { open: boolea
                 open={open}
                 onClose={handleClose}
             >
-                <CustomerForm
-                    initialValues={initialValues?._id ? initialValues : emptyInitialValues}
-                    handleSubmit={handleCustomerFormSubmit}
-                />
+                {open && (
+                    <CustomerForm
+                        initialValues={initialValues?._id ? initialValues : emptyInitialValues}
+                        handleSubmit={handleCustomerFormSubmit}
+                    />
+                )}
             </ADrawer>
         </>
     )

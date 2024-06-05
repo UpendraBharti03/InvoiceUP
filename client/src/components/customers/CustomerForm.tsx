@@ -1,12 +1,16 @@
+import { useEffect } from "react";
 import { Col, Row } from "antd";
 import { useFormikContext } from "formik";
-import { FormikForm, ATextField, AButton, ASelectField } from "@ant-ui";
+import { FormikForm, ATextField, AButton, ATextAreaField } from "@ant-ui";
 import { validateZodSchemaFormik } from "@ui-helpers";
 import { CustomerFormZS, TCustomerFormZS } from "@/@types/customer";
-import { useEffect, useMemo } from "react";
 
 const CustomerFormContent = () => {
-    const { isSubmitting } = useFormikContext<TCustomerFormZS>();
+    const { isSubmitting, values, setFieldValue } = useFormikContext<TCustomerFormZS>();
+
+    useEffect(() => {
+        setFieldValue("name.fullName", values?.name?.first + " " + values?.name?.last);
+    }, [values?.name?.first, values?.name?.last])
 
     return (
         <>
@@ -15,16 +19,16 @@ const CustomerFormContent = () => {
                     <ATextField name="name.first" label="First name" placeholder="Enter first name" />
                 </Col>
                 <Col span={24}>
-                    <ATextField name="name.first" label="Last name" placeholder="Enter last name" />
+                    <ATextField name="name.last" label="Last name" placeholder="Enter last name" />
                 </Col>
                 <Col span={24}>
                     <ATextField name="email" label="Email" placeholder="Enter email" />
                 </Col>
                 <Col span={24}>
-                    <ATextField type={"number"} name="taxRate" label="Tax rate (in %)" placeholder="Enter tax rate in %" />
+                    <ATextField name="phone" label="Phone" placeholder="Enter phone number" />
                 </Col>
                 <Col span={24}>
-                    <ATextField type={"number"} name="totalAmount" label="Total amount" placeholder="Total amount" disabled />
+                    <ATextAreaField name="address" label="Address" placeholder="Enter address" />
                 </Col>
 
                 <Col span={24}>
