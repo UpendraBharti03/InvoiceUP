@@ -23,7 +23,7 @@ export const deleteCustomerById = async ({_id}: {_id: mongoose.Types.ObjectId}) 
     return customerObj;
 }
 
-export const getCustomersList = async ({search = "", page = 1, limit = 10, filter = {}, staticFilter = {}}: TListParams<Pick<ICustomer, "name" | "email"> | {}, Pick<ICustomer, "userId"> | {}>) => {
+export const getCustomersList = async ({search = "", page = 1, limit = 10, filter = {}, staticFilter = {}}: TListParams<Pick<ICustomer, "name" | "email"> | {}, Pick<ICustomer, "userId" | "isDeleted"> | {}>) => {
     const searchRegex = new RegExp(search, 'gi');
     const skip = (page - 1) * limit;
 

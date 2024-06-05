@@ -4,7 +4,7 @@ export const createCustomerValidation : ValidateMiddlewareParams = {
     body: {
         rules: {
             'name': 'required|object',
-                'name.fullName': 'required|string',
+                'name.fullName': 'string',
                 'name.first': 'required|string',
                 'name.last': 'required|string',
             'email': 'required|string|email',

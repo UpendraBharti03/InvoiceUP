@@ -19,7 +19,7 @@ export class ICustomer {
     @prop({ type: String, required: true })
     public phone!: string;
 
-    @prop({ type: String, required: true })
+    @prop({ type: String, required: false })
     public address?: string;
 
     @prop({ type: Boolean, required: false, default: false })

@@ -13,9 +13,14 @@ export const getProductDetails = async ({_id}: {_id: mongoose.Types.ObjectId}) =
     return product;
 }
 
-export const updateProduct = async ({_id, payload}: {_id: mongoose.Types.ObjectId; payload: IProduct}) => {
+export const updateProduct = async ({_id, payload}: {_id: mongoose.Types.ObjectId; payload: Partial<IProduct>}) => {
     const productObj = await Product.findOneAndUpdate({_id}, payload, {new: true});
     return productObj;
+}
+
+export const deleteProductById = async ({_id}: {_id: mongoose.Types.ObjectId}) => {
+    const customerObj = await Product.findOneAndUpdate({ _id }, { isDeleted: true }, { new: true });
+    return customerObj;
 }
 
 export const getProductsList = async ({search = "", page = 1, limit = 10, filter = {}, staticFilter = {}}: TListParams<Pick<IProduct, "productName" | "productDescription"> | {}, Pick<IProduct, "userId"> | {}>) => {

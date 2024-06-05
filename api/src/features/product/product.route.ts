@@ -19,4 +19,7 @@ router.get('/', authenticate, validate(getProductDetailsValidation), catchAsync(
 // products list route
 router.post('/list', authenticate, validate(getProductsListValidation), catchAsync(productController?.getProductsListHandler));
 
+// delete product route
+router.put('/delete/:_id', authenticate, catchAsync(productController?.deleteProductHandler));
+
 export default router;

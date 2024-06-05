@@ -147,7 +147,7 @@ const getCustomerDetailsHandler = async (req: any, res: Response) => {
 
 const deleteCustomerHandler = async (req: any, res: Response) => {
     const userId = req.user._id;
-    const customerId = req.query._id;
+    const customerId = req.params._id;
 
     if (!userId) {
         return res.sendJSONResponse({
@@ -177,7 +177,7 @@ const deleteCustomerHandler = async (req: any, res: Response) => {
 
     return res.sendJSONResponse({
         data: {
-            result: customer,
+            result: {},
         },
         message: "Customer details deleted successfully"
     })
@@ -188,13 +188,14 @@ const getCustomersListHandler = async (req: any, res: Response) => {
     const reqBody = req.body;
     const userId = req.user._id;
 
-    const payload: TListParams<object, Pick<ICustomer, "userId">> = {
+    const payload: TListParams<Partial<ICustomer>, Pick<ICustomer, "userId" | "isDeleted">> = {
         search: reqBody?.search ?? '',
         page: reqBody?.page ?? 1,
         limit: reqBody?.limit,
         filter: reqBody?.filter ?? {},
         staticFilter: {
             userId,
+            isDeleted: false,
         },
     }
 

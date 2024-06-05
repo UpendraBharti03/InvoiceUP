@@ -2,7 +2,7 @@ import { Response } from "express";
 import httpStatus from "http-status";
 import mongoose from "mongoose";
 import { IProduct } from "@src/features/product/product.model";
-import { createProduct, getProductDetails, getProductsList, updateProduct } from "@src/features/product/product.service";
+import { createProduct, deleteProductById, getProductDetails, getProductsList, updateProduct } from "@src/features/product/product.service";
 import { TPaginatedResponse, TListParams } from "@src/@types/common"; 
 
 const createProductHandler = async (req: any, res: Response) => {
@@ -91,7 +91,7 @@ const updateProductHandler = async (req: any, res: Response) => {
     const taxRate = reqBody?.taxRate ?? oldProduct?.taxRate ?? 0;
     const totalAmount = price + (price * taxRate)/100;
 
-    const payload: Omit<IProduct, "_id"> = {
+    const payload: Omit<Partial<IProduct>, "_id"> = {
         userId,
         productName: reqBody?.productName ?? oldProduct?.productName,
         productDescription: reqBody?.productDescription ?? oldProduct?.productDescription ?? "",
@@ -149,17 +149,57 @@ const getProductDetailsHandler = async (req: any, res: Response) => {
     })
 }
 
+const deleteProductHandler = async (req: any, res: Response) => {
+    const userId = req.user._id;
+    const productId = req.params._id;
+
+    if (!userId) {
+        return res.sendJSONResponse({
+            success: false,
+            code: httpStatus.BAD_REQUEST,
+            message: 'No account exist.',
+        });
+    }
+
+    if (!productId) {
+        return res.sendJSONResponse({
+            success: false,
+            code: httpStatus.BAD_REQUEST,
+            message: 'Invalid product',
+        });
+    }
+
+    const product = await deleteProductById({_id: productId});
+
+    if (!product) {
+        return res.sendJSONResponse({
+            success: false,
+            code: httpStatus.BAD_REQUEST,
+            message: 'Invalid product',
+        });
+    }
+
+    return res.sendJSONResponse({
+        data: {
+            result: {},
+        },
+        message: "Product details deleted successfully"
+    })
+}
+
+
 const getProductsListHandler = async (req: any, res: Response) => {
     const reqBody = req.body;
     const userId = req.user._id;
 
-    const payload: TListParams<object, Pick<IProduct, "userId">> = {
+    const payload: TListParams<Partial<IProduct>, Pick<IProduct, "userId" | "isDeleted">> = {
         search: reqBody?.search ?? '',
         page: reqBody?.page ?? 1,
         limit: reqBody?.limit,
         filter: reqBody?.filter ?? {},
         staticFilter: {
             userId,
+            isDeleted: false,
         },
     }
 
@@ -171,4 +211,4 @@ const getProductsListHandler = async (req: any, res: Response) => {
     })
 }
 
-export default {createProductHandler, updateProductHandler, getProductDetailsHandler, getProductsListHandler};
+export default {createProductHandler, updateProductHandler, getProductDetailsHandler, deleteProductHandler, getProductsListHandler};

@@ -36,6 +36,9 @@ export class IProduct {
 
     @prop({type: Number, required: true})
     public totalAmount!: number;
+
+    @prop({type: Boolean, required: false, default: false})
+    public isDeleted?: boolean;
 }
 
 const Product = getModelForClass(IProduct);
