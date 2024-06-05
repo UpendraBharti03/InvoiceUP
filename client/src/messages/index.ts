@@ -6,6 +6,7 @@ export const messages = {
     PASSWORDS_DID_NOT_MATCH: "Passwords did not match",
     FIRST_NAME_REQUIRED: "Please enter first name",
     LAST_NAME_REQUIRED: "Please enter last name",
+    PHONE_NUMBER_REQUIRED: "Please enter phone number",
 
     // Product
     PRODUCT_NAME_REQUIRED: "Please enter product name",
