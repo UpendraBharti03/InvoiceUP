@@ -28,7 +28,7 @@ export class IProduct {
     @prop({type: Number, required: true})
     public price!: number;
 
-    @prop({type: Number, required: false})
+    @prop({type: Number, required: false, default: 0})
     public taxRate?: number;
 
     @prop({type: String, required: true, enum: EProductMeasurementUnits, default: EProductMeasurementUnits.ITEM})

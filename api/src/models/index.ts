@@ -16,4 +16,8 @@ export const modelsInfo = {
         modelName: 'Customer',
         collectionName: 'customers',
     },
+    INVOICE: {
+        modelName: 'Invoice',
+        collectionName: 'invoices',
+    },
 }
