@@ -3,7 +3,7 @@ import catchAsync from "@src/utils/catchAsync";
 import { validate } from "@src/middlewares/validate";
 import { authenticate } from "@src/features/auth/auth.middleware";
 import invoiceController from "@src/features/invoice/invoice.controller";
-import { createInvoiceValidation } from "@src/features/invoice/invoice.validation";
+import { createInvoiceValidation, updateInvoiceValidation } from "@src/features/invoice/invoice.validation";
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ const router = express.Router();
 router.post('/create', authenticate, validate(createInvoiceValidation), catchAsync(invoiceController?.createInvoiceHandler));
 
 // update invoice route
-// router.put('/:_id', authenticate, validate(updateInvoiceValidation), catchAsync(invoiceController?.updateInvoiceHandler));
+router.put('/:_id', authenticate, validate(updateInvoiceValidation), catchAsync(invoiceController?.updateInvoiceHandler));
 
 // get invoice details route
 // router.get('/', authenticate, validate(getInvoiceDetailsValidation), catchAsync(invoiceController?.getInvoiceDetailsHandler));

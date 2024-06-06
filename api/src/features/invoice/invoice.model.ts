@@ -40,7 +40,10 @@ export class IInvoice {
     @prop({ type: IProductItem, required: true }, PropType.ARRAY)
     public productItems!: IProductItem[];
 
-    @prop({ type: ICustomer, required: true, ref: modelsInfo?.CUSTOMER?.modelName })
+    @prop({type: mongoose.SchemaTypes.ObjectId, required: true, ref: modelsInfo?.CUSTOMER?.modelName})
+    public customerId!: mongoose.Types.ObjectId;
+
+    @prop({ type: ICustomer, required: true })
     public customer!: ICustomer;
 
     // @prop({ type: String, required: true, ref: modelsInfo?.PAYMENT?.modelName })
