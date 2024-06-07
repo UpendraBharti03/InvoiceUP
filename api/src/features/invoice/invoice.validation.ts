@@ -38,6 +38,14 @@ export const updateInvoiceValidation : ValidateMiddlewareParams = {
     },
 }
 
+export const updateInvoiceStatusValidation : ValidateMiddlewareParams = {
+    body: {
+        rules: {
+            'status': 'required|string',
+        },
+    },
+}
+
 export const getInvoiceDetailsValidation : ValidateMiddlewareParams = {
     query: {
         rules: {

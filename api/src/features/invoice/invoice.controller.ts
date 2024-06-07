@@ -4,11 +4,15 @@ import httpStatus from "http-status";
 import { IInvoice, IProductItem } from "@src/features/invoice/invoice.model";
 import {
   createInvoice,
+  deleteInvoiceById,
   getInvoiceDetails,
+  getInvoicesList,
   updateInvoice,
+  updateInvoiceStatus,
 } from "@src/features/invoice/invoice.service";
 import { getCustomerDetails } from "@src/features/customer/customer.service";
 import { getProductDetails } from "@src/features/product/product.service";
+import { TListParams } from "@src/@types/common";
 
 const createInvoiceHandler = async (req: any, res: Response) => {
   const reqBody = req.body;
@@ -221,4 +225,134 @@ const updateInvoiceHandler = async (req: any, res: Response) => {
   });
 };
 
-export default { createInvoiceHandler, updateInvoiceHandler };
+const getInvoiceDetailsHandler = async (req: any, res: Response) => {
+  const userId = req.user._id;
+  const invoiceId = req.query._id;
+
+  if (!userId) {
+      return res.sendJSONResponse({
+          success: false,
+          code: httpStatus.BAD_REQUEST,
+          message: 'No account exist.',
+      });
+  }
+
+  if (!invoiceId) {
+      return res.sendJSONResponse({
+          success: false,
+          code: httpStatus.BAD_REQUEST,
+          message: 'Invalid invoice',
+      });
+  }
+
+  const invoice = await getInvoiceDetails({_id: invoiceId});
+
+  if (!invoice) {
+      return res.sendJSONResponse({
+          success: false,
+          code: httpStatus.BAD_REQUEST,
+          message: 'Invalid invoice',
+      });
+  }
+
+  return res.sendJSONResponse({
+      data: {
+          result: invoice,
+      },
+      message: "Invoice details fetched successfully"
+  })
+}
+
+const updateInvoiceStatusHandler = async (req: any, res: Response) => {
+  const {status} = req.body;
+  const userId = req.user._id;
+  const invoiceId = req.params._id;
+
+  if (!userId) {
+    return res.sendJSONResponse({
+      success: false,
+      code: httpStatus.BAD_REQUEST,
+      message: "No account exist.",
+    });
+  }
+
+  if (!invoiceId) {
+    return res.sendJSONResponse({
+      success: false,
+      code: httpStatus.BAD_REQUEST,
+      message: "Invalid invoice",
+    });
+  }
+
+  const updatedInvoice = await updateInvoiceStatus({_id: invoiceId, status})
+
+  return res.sendJSONResponse({
+    data: {
+      result: updatedInvoice,
+    },
+    message: "Invoice status updated successfully",
+  });
+}
+
+const deleteInvoiceHandler = async (req: any, res: Response) => {
+  const userId = req.user._id;
+  const invoiceId = req.params._id;
+
+  if (!userId) {
+      return res.sendJSONResponse({
+          success: false,
+          code: httpStatus.BAD_REQUEST,
+          message: 'No account exist.',
+      });
+  }
+
+  if (!invoiceId) {
+      return res.sendJSONResponse({
+          success: false,
+          code: httpStatus.BAD_REQUEST,
+          message: 'Invalid invoice',
+      });
+  }
+
+  const invoice = await deleteInvoiceById({_id: invoiceId});
+
+  if (!invoice) {
+      return res.sendJSONResponse({
+          success: false,
+          code: httpStatus.BAD_REQUEST,
+          message: 'Invalid invoice',
+      });
+  }
+
+  return res.sendJSONResponse({
+      data: {
+          result: {},
+      },
+      message: "Invoice details deleted successfully"
+  })
+}
+
+const getInvoicesListHandler = async (req: any, res: Response) => {
+  const reqBody = req.body;
+  const userId = req.user._id;
+
+  const payload: TListParams<Partial<IInvoice>, Pick<IInvoice, "userId" | "isDeleted">> = {
+      search: reqBody?.search ?? '',
+      page: reqBody?.page ?? 1,
+      limit: reqBody?.limit,
+      filter: reqBody?.filter ?? {},
+      staticFilter: {
+          userId,
+          isDeleted: false,
+      },
+  }
+
+  const results = await getInvoicesList(payload);
+
+  return res.sendJSONResponse({
+      data: results,
+      message: "Invoices List fetched successfully"
+  })
+}
+
+export default { createInvoiceHandler, updateInvoiceHandler, getInvoiceDetailsHandler, updateInvoiceStatusHandler, deleteInvoiceHandler, getInvoicesListHandler };

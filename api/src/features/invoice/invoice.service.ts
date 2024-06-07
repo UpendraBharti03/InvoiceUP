@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { TListParams, TPaginatedResponse } from "@src/@types/common";
-import Invoice, { IInvoice } from "@src/features/invoice/invoice.model";
+import Invoice, { EInvoiceStatus, IInvoice } from "@src/features/invoice/invoice.model";
 import { prepareSearchFilterArray } from "@src/utils/helpers";
 
 export const createInvoice = async ({payload, session}: {payload: Omit<IInvoice, "_id">, session?: any}) => {
@@ -15,6 +15,11 @@ export const getInvoiceDetails = async ({_id}: {_id: mongoose.Types.ObjectId}) =
 
 export const updateInvoice = async ({_id, payload}: {_id: mongoose.Types.ObjectId; payload: Partial<IInvoice>}) => {
     const invoiceObj = await Invoice.findOneAndUpdate({_id}, payload, {new: true});
+    return invoiceObj;
+}
+
+export const updateInvoiceStatus = async ({_id, status}: {_id: mongoose.Types.ObjectId; status: EInvoiceStatus}) => {
+    const invoiceObj = await updateInvoice({_id, payload: {status}});
     return invoiceObj;
 }
 
