@@ -11,4 +11,9 @@ export const messages = {
     // Product
     PRODUCT_NAME_REQUIRED: "Please enter product name",
     PRODUCT_PRICE_REQUIRED: "Please enter product's price",
+
+    // Invoice
+    PRODUCT_ITEM_REQUIRED: "Please add at least one product",
+    PRODUCT_QUANTITY_REQUIRED: "Please add at least one product quantity",
+    PRODUCT_UNIT_PRICE_REQUIRED: "Please enter product's unit price",
 }

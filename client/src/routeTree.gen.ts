@@ -16,8 +16,11 @@ import { Route as authSignupImport } from './routes/(auth)/signup'
 import { Route as authLoginImport } from './routes/(auth)/login'
 import { Route as appProfileImport } from './routes/(app)/profile'
 import { Route as appProductsImport } from './routes/(app)/products'
+import { Route as appInvoicesImport } from './routes/(app)/invoices'
 import { Route as appDashboardImport } from './routes/(app)/dashboard'
 import { Route as appCustomersImport } from './routes/(app)/customers'
+import { Route as appInvoiceIndexImport } from './routes/(app)/invoice/index'
+import { Route as appInvoiceInvoiceIdImport } from './routes/(app)/invoice/$invoiceId'
 
 // Create/Update Routes
 
@@ -46,6 +49,11 @@ const appProductsRoute = appProductsImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const appInvoicesRoute = appInvoicesImport.update({
+  path: '/invoices',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const appDashboardRoute = appDashboardImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRoute,
@@ -53,6 +61,16 @@ const appDashboardRoute = appDashboardImport.update({
 
 const appCustomersRoute = appCustomersImport.update({
   path: '/customers',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const appInvoiceIndexRoute = appInvoiceIndexImport.update({
+  path: '/invoice/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const appInvoiceInvoiceIdRoute = appInvoiceInvoiceIdImport.update({
+  path: '/invoice/$invoiceId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -66,6 +84,10 @@ declare module '@tanstack/react-router' {
     }
     '/(app)/dashboard': {
       preLoaderRoute: typeof appDashboardImport
+      parentRoute: typeof rootRoute
+    }
+    '/(app)/invoices': {
+      preLoaderRoute: typeof appInvoicesImport
       parentRoute: typeof rootRoute
     }
     '/(app)/products': {
@@ -88,6 +110,14 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof appIndexImport
       parentRoute: typeof rootRoute
     }
+    '/(app)/invoice/$invoiceId': {
+      preLoaderRoute: typeof appInvoiceInvoiceIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/(app)/invoice/': {
+      preLoaderRoute: typeof appInvoiceIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -96,11 +126,14 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   appCustomersRoute,
   appDashboardRoute,
+  appInvoicesRoute,
   appProductsRoute,
   appProfileRoute,
   authLoginRoute,
   authSignupRoute,
   appIndexRoute,
+  appInvoiceInvoiceIdRoute,
+  appInvoiceIndexRoute,
 ])
 
 /* prettier-ignore-end */

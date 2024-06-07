@@ -5,7 +5,7 @@ import { AppDispatch } from "@/redux/store";
 import { themeColors } from "@/theme";
 import { Link, redirect, useMatch, useMatches, useParams, useRouter, useRouterState } from "@tanstack/react-router";
 import { Menu, Popconfirm, Tooltip, theme } from "antd";
-import { CircleUserRound, LayoutDashboard, LogOutIcon, Store, Users } from "lucide-react";
+import { CircleUserRound, LayoutDashboard, LogOutIcon, ReceiptText, Store, Users } from "lucide-react";
 import { ReactNode } from "react";
 import { useDispatch } from "react-redux";
 
@@ -40,6 +40,13 @@ const sidebarItems: TSidebarItem[] = [
         icon: <Users />,
     },
     {
+        key: "invoices",
+        label: "invoices",
+        route: "/invoices",
+        activeUrls: ["/invoices", "/invoice"],
+        icon: <ReceiptText />,
+    },
+    {
         key: "profile",
         label: "Profile",
         route: "/profile",
@@ -59,7 +66,7 @@ const SidebarItem = ({ item }: { item: TSidebarItem }) => {
             className={cn(
                 `flex justify-center p-2 text-white rounded-l-lg hover:text-color-primary hover:bg-color-bg-layout`,
                 {
-                    "text-color-primary bg-color-bg-layout": item?.activeUrls?.includes(activePath)
+                    "text-color-primary bg-color-bg-layout": item?.activeUrls?.some((activeUrl) => activePath.includes(activeUrl))
                 },
             )}
         >
