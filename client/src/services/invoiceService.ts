@@ -95,7 +95,7 @@ export const useDeleteInvoice = () => {
 
 export const useGetInvoicesList = ({search = "", page = 1, limit = 10, filter = {}}: TListParams<Pick<TInvoiceZS, "customer"> | {}>) => {
     return useQuery({
-        queryKey: [queryKeys.INVOICES, search, page, limit, filter],
+        queryKey: [queryKeys.INVOICES, {search, page, limit, filter}],
         queryFn: async () => {
             const data = await callApi({
                 requestFunction: getInvoicesListRequest({search, page, limit, filter}),

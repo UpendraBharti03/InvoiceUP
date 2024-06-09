@@ -34,7 +34,7 @@ export const getInvoicesList = async ({search = "", page = 1, limit = 10, filter
 
     const matchFilter: any = {
         $or: prepareSearchFilterArray({
-            keys: ["customer.name"],
+            keys: ["customer.name.fullName"],
             regex: searchRegex,
         }),
     };

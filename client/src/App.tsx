@@ -16,7 +16,13 @@ import { ConfigProvider } from 'antd';
 import { themeColors } from '@/theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-export const queryClient = new QueryClient();
+export const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: Infinity,
+        }
+    },
+});
 
 // Create a new router instance
 const router = createRouter({

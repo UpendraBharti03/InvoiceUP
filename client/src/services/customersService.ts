@@ -79,7 +79,7 @@ export const useDeleteCustomer = () => {
 
 export const useGetCustomersList = ({search = "", page = 1, limit = 10, filter = {}}: TListParams<Pick<TCustomerZS, "name" | "email"> | {}>) => {
     return useQuery({
-        queryKey: [queryKeys.CUSTOMERS, search, page, limit, filter],
+        queryKey: [queryKeys.CUSTOMERS, {search, page, limit, filter}],
         queryFn: async () => {
             const data = await callApi({
                 requestFunction: getCustomersListRequest({search, page, limit, filter}),

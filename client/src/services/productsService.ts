@@ -79,7 +79,7 @@ export const useDeleteProduct = () => {
 
 export const useGetProductsList = ({search = "", page = 1, limit = 10, filter = {}}: TListParams<Pick<TProductZS, "productName" | "productDescription"> | {}>) => {
     return useQuery({
-        queryKey: [queryKeys.PRODUCTS, search, page, limit, filter],
+        queryKey: [queryKeys.PRODUCTS, {search, page, limit, filter}],
         queryFn: async () => {
             const data = await callApi({
                 requestFunction: getProductsListRequest({search, page, limit, filter}),
