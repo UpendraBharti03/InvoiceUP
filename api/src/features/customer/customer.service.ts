@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 export const createCustomer = async ({payload, session}: {payload: Omit<ICustomer, "_id">, session?: any}) => {
     const customer = await Customer.create([payload], {session});
-    return customer;
+    return customer[0];
 }
 
 export const updateCustomer = async ({_id, payload}: {_id: mongoose.Types.ObjectId; payload: Partial<ICustomer>}) => {

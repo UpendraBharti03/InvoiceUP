@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 
 export const createProduct = async ({payload, session}: {payload: Omit<IProduct, "_id">, session?: any}) => {
     const productObj = await Product.create([payload], {session});
-    return productObj;
+    return productObj[0];
 }
 
 export const getProductDetails = async ({_id}: {_id: mongoose.Types.ObjectId}) => {

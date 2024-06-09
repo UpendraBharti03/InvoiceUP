@@ -5,7 +5,7 @@ import { prepareSearchFilterArray } from "@src/utils/helpers";
 
 export const createInvoice = async ({payload, session}: {payload: Omit<IInvoice, "_id">, session?: any}) => {
     const invoiceObj = await Invoice.create([payload], {session});
-    return invoiceObj;
+    return invoiceObj[0];
 }
 
 export const getInvoiceDetails = async ({_id}: {_id: mongoose.Types.ObjectId}) => {

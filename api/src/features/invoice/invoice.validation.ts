@@ -4,7 +4,7 @@ export const createInvoiceValidation : ValidateMiddlewareParams = {
     body: {
         rules: {
             'invoiceDescription': 'string',
-            'dueDate': 'required|date',
+            'dueDate': 'required|string',
             'totalPrice': 'numeric',
             'taxRate': 'numeric',
             'totalAmount': 'numeric',
@@ -23,7 +23,7 @@ export const updateInvoiceValidation : ValidateMiddlewareParams = {
     body: {
         rules: {
             'invoiceDescription': 'string',
-            'dueDate': 'date',
+            'dueDate': 'string',
             'totalPrice': 'numeric',
             'taxRate': 'numeric',
             'totalAmount': 'numeric',
