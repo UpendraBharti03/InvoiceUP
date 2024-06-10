@@ -5,6 +5,7 @@ import { FormikForm, ATextField, AButton, ATextAreaField } from "@ant-ui";
 import { validateZodSchemaFormik } from "@ui-helpers";
 import { InvoiceFormZS, TInvoiceFormZS } from "@/@types/invoice";
 import { InvoiceEditor } from "@/components/invoice/editor/InvoiceEditor";
+import { InvoicePreview } from "@/components/invoice/preview/InvoicePreview";
 
 const InvoiceFormContent = () => {
     const { isSubmitting, values, setFieldValue } = useFormikContext<TInvoiceFormZS>();
@@ -23,9 +24,9 @@ const InvoiceFormContent = () => {
                 </Col>
 
                 {/* Preview */}
-                {/* <Col md={12} xs={24}>
-                    
-                </Col> */}
+                <Col md={12} xs={24}>
+                    <InvoicePreview invoiceDetails={values} />
+                </Col>
             </Row>
         </>
     );

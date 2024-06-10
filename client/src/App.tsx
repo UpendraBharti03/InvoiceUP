@@ -4,6 +4,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { Provider } from 'react-redux';
 import { Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-perfect-scrollbar/dist/css/styles.css';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { persistor, store } from '@/redux/store'

@@ -5,6 +5,7 @@ import { Sidebar } from '@/layout/panelLayout/Sidebar';
 import { useSelector } from 'react-redux';
 import { selectIsAuthLoading, selectIsAuthenticated } from '@/redux/slices/authSlice';
 import { redirect } from '@tanstack/react-router';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
 type TPanelLayoutProps = {
     children: React.ReactNode;
@@ -23,14 +24,18 @@ function PanelLayout({ children }: TPanelLayoutProps) {
     }
 
     return (
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout style={{ height: '100vh' }}>
             <Layout.Sider theme={"light"} collapsed={true}>
-                <Sidebar />
+                <PerfectScrollbar options={{}} style={{ height: '100%' }}>
+                    <Sidebar />
+                </PerfectScrollbar>
             </Layout.Sider>
             <Layout>
-                <Layout.Content style={{ padding: themeToken?.padding }}>
-                    {children}
-                </Layout.Content>
+                <PerfectScrollbar options={{}} style={{ height: '100%' }}>
+                    <Layout.Content style={{ padding: themeToken?.padding }}>
+                        {children}
+                    </Layout.Content>
+                </PerfectScrollbar>
             </Layout>
         </Layout>
     );
