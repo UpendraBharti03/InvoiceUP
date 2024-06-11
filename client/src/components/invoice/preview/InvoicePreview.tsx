@@ -3,6 +3,7 @@ import { capitalizeFirstLetter } from "@ui-helpers";
 import { TInvoiceFormZS } from "@/@types/invoice";
 import { InvoiceStatus, TInvoiceZS } from "@/@types/zodSchema/invoiceZS";
 import React from "react";
+import dayjs from 'dayjs';
 
 export const InvoicePreview = ({ invoiceDetails }: { invoiceDetails: TInvoiceZS | TInvoiceFormZS }) => {
 
@@ -17,13 +18,13 @@ export const InvoicePreview = ({ invoiceDetails }: { invoiceDetails: TInvoiceZS 
 
             {/* Customer details */}
             <div className={"mb-2"}>
-                {invoiceDetails?.dueDate && <div>Due date: {invoiceDetails?.dueDate}</div>}
+                {invoiceDetails?.dueDate && <div>Due date: {dayjs(invoiceDetails?.dueDate).format('DD/MM/YYYY')}</div>}
                 {invoiceDetails?.customer && (
                     <div>
-                        {invoiceDetails?.customer?.name?.fullName && <span>{invoiceDetails?.customer?.name?.fullName}</span>}
-                        {invoiceDetails?.customer?.email && <span>{invoiceDetails?.customer?.email}</span>}
-                        {invoiceDetails?.customer?.phone && <span>{invoiceDetails?.customer?.phone}</span>}
-                        {invoiceDetails?.customer?.address && <span>{invoiceDetails?.customer?.address}</span>}
+                        {invoiceDetails?.customer?.name?.fullName && <div>{invoiceDetails?.customer?.name?.fullName}</div>}
+                        {invoiceDetails?.customer?.email && <div>{invoiceDetails?.customer?.email}</div>}
+                        {invoiceDetails?.customer?.phone && <div>{invoiceDetails?.customer?.phone}</div>}
+                        {invoiceDetails?.customer?.address && <div>{invoiceDetails?.customer?.address}</div>}
                     </div>
                 )}
             </div>

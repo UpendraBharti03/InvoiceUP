@@ -68,10 +68,12 @@ export const useGetInvoiceDetails = (payload: Pick<TInvoiceZS, "_id">) => {
     return useQuery({
         queryKey: [queryKeys.INVOICES],
         queryFn: async () => {
-            const result = await callApi({
+            const data = await callApi({
                 requestFunction: getInvoiceDetailsRequest(payload),
             });
-            return result as TInvoiceZS;
+            if ("error" in data && !data?.error) {
+                return data?.result as TInvoiceZS;
+            }
         },
         refetchOnWindowFocus: false,
     })

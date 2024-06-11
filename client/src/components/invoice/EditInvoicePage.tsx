@@ -14,7 +14,6 @@ const EditInvoicePage = () => {
 
     const {mutateAsync: updateInvoiceMutateAsync, isPending} = useUpdateInvoice();
 
-
     const handleUpdateInvoiceSubmit = async (values: TInvoiceFormZS) => {
         const payload: Omit<TInvoiceZS, "userId"> = {
             ...values,
