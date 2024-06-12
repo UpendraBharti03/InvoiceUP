@@ -89,3 +89,26 @@ export const getInvoicesList = async ({ search = "", page = 1, limit = 10, filte
 
     return data;
 }
+
+export const getInvoicesCount = async ({staticFilter = {}}: {staticFilter: Pick<IInvoice, "userId" | "isDeleted"> | {}}) => {
+    const pipeline: any[] = [
+        {
+            $match: {
+                ...staticFilter,
+            },
+        },
+        {
+            $sort: {
+                _id: -1,
+            },
+        },
+    ];
+    const countPipeline = [
+        {
+            $count: 'totalResults',
+        },
+    ];
+    const totalResponse = await Invoice.aggregate([...pipeline, ...countPipeline]);
+    const totalResultsCount = totalResponse?.[0]?.totalResults ?? 0;
+    return totalResultsCount;
+}

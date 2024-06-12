@@ -5,6 +5,7 @@ import userProfileRoute from "@src/features/userProfile/userProfile.route";
 import productRoute from "@src/features/product/product.route";
 import customerRoute from "@src/features/customer/customer.route";
 import invoiceRoute from "@src/features/invoice/invoice.route";
+import dashboardRoute from "@src/features/dashboard/dashboard.route";
 
 const router = express.Router()
 
@@ -32,6 +33,10 @@ const routes = [
   {
     path: '/invoice',
     route: invoiceRoute,
+  },
+  {
+    path: '/dashboard',
+    route: dashboardRoute,
   },
 ]
 
