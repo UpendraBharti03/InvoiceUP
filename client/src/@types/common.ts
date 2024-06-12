@@ -2,7 +2,7 @@
 export type TListParams<Filter> = {
     search?: string;
     page?: number;
-    limit?: number;
+    limit?: number | "ALL";
     filter?: Filter;
 }
 

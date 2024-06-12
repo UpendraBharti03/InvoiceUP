@@ -12,14 +12,14 @@ import { InvoiceStatus } from "@/@types/zodSchema/invoiceZS";
 export const InvoiceEditor = () => {
     const { data: customersList, isLoading: isCustomersListLoading, isRefetching: isCustomersListRefetching } = useGetCustomersList({
         page: 1,
-        limit: 10,
+        limit: "ALL",
         search: "",
         filter: {},
     });
 
     const { data: productsList, isLoading: isProductsListLoading, isRefetching: isProductsListRefetching } = useGetProductsList({
         page: 1,
-        limit: 10,
+        limit: "ALL",
         search: "",
         filter: {},
     });
