@@ -38,7 +38,7 @@ export const getProductsListValidation : ValidateMiddlewareParams = {
     body: {
         rules: {
             'page': 'numeric',
-            'limit': 'numeric',
+            'limit': 'alphaNumeric',
             'search': 'string',
             'filter': 'object',
         },

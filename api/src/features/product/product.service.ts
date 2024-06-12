@@ -25,7 +25,7 @@ export const deleteProductById = async ({_id}: {_id: mongoose.Types.ObjectId}) =
 
 export const getProductsList = async ({search = "", page = 1, limit = 10, filter = {}, staticFilter = {}}: TListParams<Pick<IProduct, "productName" | "productDescription"> | {}, Pick<IProduct, "userId"> | {}>) => {
     const searchRegex = new RegExp(search, 'gi');
-    const skip = (page - 1) * limit;
+    const skip = limit === "ALL" ? 0 : (page - 1) * limit;
 
     const matchFilter: any = {
         $or: prepareSearchFilterArray({
@@ -59,9 +59,9 @@ export const getProductsList = async ({search = "", page = 1, limit = 10, filter
         {
             $skip: skip,
         },
-        {
+        ...(limit === "ALL" ? [] : [{
             $limit: limit,
-        },
+        }]),
     ];
     const countPipeline = [
         {
@@ -72,10 +72,10 @@ export const getProductsList = async ({search = "", page = 1, limit = 10, filter
     const results = await Product.aggregate([...pipeline, ...paginationPipeline]);
     const totalResponse = await Product.aggregate([...pipeline, ...countPipeline]);
     const totalResults = totalResponse?.[0]?.totalResults ?? 0;
-    const totalPages = Math.ceil(totalResults / limit);
+    const totalPages = limit === "ALL" ? 1 : Math.ceil(totalResults / limit);
     const fromTo = {
-        from: page == 1 ? page : page * limit + 1 - limit,
-        to: page == 1 ? limit : page == totalPages ? totalResults : page * limit,
+        from: limit === "ALL" ? 1 : page == 1 ? page : page * limit + 1 - limit,
+        to: limit === "ALL" ? totalResults : page == 1 ? limit : page == totalPages ? totalResults : page * limit,
     };
 
     const data: TPaginatedResponse<IProduct> = {

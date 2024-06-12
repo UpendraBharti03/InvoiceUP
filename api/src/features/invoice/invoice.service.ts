@@ -28,9 +28,9 @@ export const deleteInvoiceById = async ({_id}: {_id: mongoose.Types.ObjectId}) =
     return customerObj;
 }
 
-export const getInvoicesList = async ({search = "", page = 1, limit = 10, filter = {}, staticFilter = {}}: TListParams<Pick<IInvoice, "customer"> | {}, Pick<IInvoice, "userId"> | {}>) => {
+export const getInvoicesList = async ({ search = "", page = 1, limit = 10, filter = {}, staticFilter = {} }: TListParams<Pick<IInvoice, "customer"> | {}, Pick<IInvoice, "userId"> | {}>) => {
     const searchRegex = new RegExp(search, 'gi');
-    const skip = (page - 1) * limit;
+    const skip = limit === "ALL" ? 0 : (page - 1) * limit;
 
     const matchFilter: any = {
         $or: prepareSearchFilterArray({
@@ -59,9 +59,9 @@ export const getInvoicesList = async ({search = "", page = 1, limit = 10, filter
         {
             $skip: skip,
         },
-        {
+        ...(limit === "ALL" ? [] : [{
             $limit: limit,
-        },
+        }]),
     ];
     const countPipeline = [
         {
@@ -72,10 +72,10 @@ export const getInvoicesList = async ({search = "", page = 1, limit = 10, filter
     const results = await Invoice.aggregate([...pipeline, ...paginationPipeline]);
     const totalResponse = await Invoice.aggregate([...pipeline, ...countPipeline]);
     const totalResults = totalResponse?.[0]?.totalResults ?? 0;
-    const totalPages = Math.ceil(totalResults / limit);
+    const totalPages = limit === "ALL" ? 1 : Math.ceil(totalResults / limit);
     const fromTo = {
-        from: page == 1 ? page : page * limit + 1 - limit,
-        to: page == 1 ? limit : page == totalPages ? totalResults : page * limit,
+        from: limit === "ALL" ? 1 : page == 1 ? page : page * limit + 1 - limit,
+        to: limit === "ALL" ? totalPages : page == 1 ? limit : page == totalPages ? totalResults : page * limit,
     };
 
     const data: TPaginatedResponse<IInvoice> = {
