@@ -98,6 +98,7 @@ const CustomersPage = () => {
                 render: (value) => <span>{value ? value : "-"}</span>
             },
             {
+                width: 150,
                 title: 'Action',
                 dataIndex: 'action',
                 key: 'action',
@@ -133,6 +134,7 @@ const CustomersPage = () => {
                 setPage={setPage}
                 limit={limit}
                 setLimit={setLimit}
+                scroll={{ x: 700 }}
             />
         </div>
     )

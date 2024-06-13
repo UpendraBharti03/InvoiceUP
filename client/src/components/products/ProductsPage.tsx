@@ -107,6 +107,7 @@ const ProductsPage = () => {
                 render: (value, record) => value ? <span>{value}/{record?.measurementUnit}</span> : "-"
             },
             {
+                width: 150,
                 title: 'Action',
                 dataIndex: 'action',
                 key: 'action',
@@ -142,6 +143,7 @@ const ProductsPage = () => {
                 setPage={setPage}
                 limit={limit}
                 setLimit={setLimit}
+                scroll={{x: 400}}
             />
         </div>
     )

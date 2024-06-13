@@ -27,6 +27,7 @@ export const useCreateInvoice = () => {
         onSuccess: (data) => {
             if ("error" in data && !data?.error) {
                 queryClient.invalidateQueries({queryKey: [queryKeys.INVOICES]})
+                queryClient.invalidateQueries({queryKey: [queryKeys.DASHBOARD]})
             }
         }
     })
@@ -43,6 +44,7 @@ export const useUpdateInvoice = () => {
         onSuccess: (data) => {
             if ("error" in data && !data?.error) {
                 queryClient.invalidateQueries({queryKey: [queryKeys.INVOICES]})
+                queryClient.invalidateQueries({queryKey: [queryKeys.DASHBOARD]})
             }
         }
     })
@@ -59,6 +61,7 @@ export const useUpdateInvoiceStatus = () => {
         onSuccess: (data) => {
             if ("error" in data && !data?.error) {
                 queryClient.invalidateQueries({queryKey: [queryKeys.INVOICES]})
+                queryClient.invalidateQueries({queryKey: [queryKeys.DASHBOARD]})
             }
         }
     })
@@ -70,6 +73,7 @@ export const useGetInvoiceDetails = (payload: Pick<TInvoiceZS, "_id">) => {
         queryFn: async () => {
             const data = await callApi({
                 requestFunction: getInvoiceDetailsRequest(payload),
+                showToastOnSuccess: false,
             });
             if ("error" in data && !data?.error) {
                 return data?.result as TInvoiceZS;
@@ -90,6 +94,7 @@ export const useDeleteInvoice = () => {
         onSuccess: (data) => {
             if ("error" in data && !data?.error) {
                 queryClient.invalidateQueries({queryKey: [queryKeys.INVOICES]})
+                queryClient.invalidateQueries({queryKey: [queryKeys.DASHBOARD]})
             }
         }
     })

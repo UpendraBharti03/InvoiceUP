@@ -13,6 +13,7 @@ export const useGetDashboardAnalyticsData = () => {
         queryFn: async () => {
             const data = await callApi({
                 requestFunction: getDashboardAnalyticsDataRequest(),
+                showToastOnSuccess: false,
             });
             if ("error" in data && !data?.error) {
                 return data?.result as TDashboardAnalyticsDataResultZS;

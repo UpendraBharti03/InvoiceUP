@@ -27,6 +27,7 @@ export const useCreateCustomer = () => {
         onSuccess: (data) => {
             if ("error" in data && !data?.error) {
                 queryClient.invalidateQueries({queryKey: [queryKeys.CUSTOMERS]})
+                queryClient.invalidateQueries({queryKey: [queryKeys.DASHBOARD]})
             }
         }
     })
@@ -43,6 +44,7 @@ export const useUpdateCustomer = () => {
         onSuccess: (data) => {
             if ("error" in data && !data?.error) {
                 queryClient.invalidateQueries({queryKey: [queryKeys.CUSTOMERS]})
+                queryClient.invalidateQueries({queryKey: [queryKeys.DASHBOARD]})
             }
         }
     })
@@ -54,6 +56,7 @@ export const useGetCustomerDetails = (payload: Pick<TCustomerZS, "_id">) => {
         queryFn: async () => {
             const result = await callApi({
                 requestFunction: getCustomerDetailsRequest(payload),
+                showToastOnSuccess: false,
             });
             return result as TCustomerZS;
         },
@@ -72,6 +75,7 @@ export const useDeleteCustomer = () => {
         onSuccess: (data) => {
             if ("error" in data && !data?.error) {
                 queryClient.invalidateQueries({queryKey: [queryKeys.CUSTOMERS]})
+                queryClient.invalidateQueries({queryKey: [queryKeys.DASHBOARD]})
             }
         }
     })

@@ -5,6 +5,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Pencil, Trash } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { AButton, ATable } from "@ant-ui";
+import { capitalizeFirstLetter } from "@ui-helpers";
 import { useDeleteInvoice, useGetInvoicesList } from "@/services/invoiceService";
 import { TInvoiceZS } from "@/@types/zodSchema/invoiceZS";
 import { TableWithPagination } from "@/components/ui/TableWithPagination";
@@ -47,28 +48,24 @@ const InvoiceActions = ({ record }: { record: TInvoiceZS }) => {
 }
 
 const InvoicesListPage = () => {
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
     const { data: invoicesList, isLoading: isInvoicesListLoading } = useGetInvoicesList({
-        page: 1,
-        limit: 10,
+        page,
+        limit,
         search: "",
         filter: {},
     });
-    const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(10);
-
-    const { mutateAsync: deleteInvoiceMutateAsync, isPending } = useDeleteInvoice();
-
-    const handleDeleteInvoice = async ({ _id }: { _id: string }) => {
-        await deleteInvoiceMutateAsync({ _id })
-    }
 
     const invoiceTableColumns = useMemo(() => {
         const columns: TableColumnsType<TInvoiceZS> = [
             {
+                width: 200,
                 title: 'Customer',
                 dataIndex: 'customer',
                 key: 'customer',
                 ellipsis: true,
+                // fixed: "left",
                 render: (_, record) => <span>{record?.customer?.name?.fullName}</span>,
             },
             {
@@ -83,6 +80,7 @@ const InvoicesListPage = () => {
                 dataIndex: 'status',
                 key: 'status',
                 ellipsis: true,
+                render: (value) => <span>{capitalizeFirstLetter(value)}</span>
             },
             {
                 title: 'Total Amount',
@@ -91,9 +89,11 @@ const InvoicesListPage = () => {
                 ellipsis: true,
             },
             {
+                width: 150,
                 title: 'Action',
                 dataIndex: 'action',
                 key: 'action',
+                // fixed: "right",
                 render: (_, record) => <InvoiceActions record={record} />,
             },
         ];
@@ -119,7 +119,15 @@ const InvoicesListPage = () => {
                     <AButton>Add Invoice</AButton>
                 </Link>
             </div>
-            <TableWithPagination<TInvoiceZS> data={invoicesList} columns={invoiceTableColumns} page={page} setPage={setPage} limit={limit} setLimit={setLimit} />
+            <TableWithPagination<TInvoiceZS>
+                data={invoicesList}
+                columns={invoiceTableColumns}
+                page={page}
+                setPage={setPage}
+                limit={limit}
+                setLimit={setLimit}
+                scroll={{ x: 700 }}
+            />
         </div>
     )
 }

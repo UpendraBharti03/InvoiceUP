@@ -62,16 +62,16 @@ const SidebarItem = ({ item }: { item: TSidebarItem }) => {
     return (
         <Tooltip placement="right" title={item?.label} color={themeColors.colorPrimary2}>
             <Link
-            to={item?.route}
-            className={cn(
-                `flex justify-center p-2 text-white rounded-l-lg hover:text-color-primary hover:bg-color-bg-layout`,
-                {
-                    "text-color-primary bg-color-bg-layout": item?.activeUrls?.some((activeUrl) => activePath.includes(activeUrl))
-                },
-            )}
-        >
-            {item?.icon}
-        </Link>
+                to={item?.route}
+                className={cn(
+                    `flex justify-center p-2 text-white rounded-l-lg hover:text-color-primary hover:bg-color-bg-layout`,
+                    {
+                        "text-color-primary bg-color-bg-layout": item?.activeUrls?.some((activeUrl) => activePath.includes(activeUrl))
+                    },
+                )}
+            >
+                {item?.icon}
+            </Link>
         </Tooltip>
     )
 }
@@ -90,13 +90,13 @@ export const Sidebar = () => {
     return (
         <>
             <div
-                className={"w-20 min-h-screen h-full"}
+                className={"w-20 h-fit"}
                 style={{
                     backgroundImage: `linear-gradient(to bottom, ${themeColors.colorPrimary2} 1%, ${themeColors.colorPrimary})`,
                 }}
             >
 
-                <ul className={"flex flex-col gap-6 items-center h-full"}>
+                <ul className={"flex flex-col gap-6 items-center min-h-screen h-full"}>
                     <li className={"mb-12 text-white"}>
                         <LeafIconLogo size={50} />
                     </li>
@@ -106,20 +106,20 @@ export const Sidebar = () => {
                         </li>
                     ))}
                     <li className={"mt-auto w-full pl-4 mb-2"}>
-                    <Tooltip placement="right" title={"Logout"} color={themeColors.colorPrimary2}>
-                        <Popconfirm
-                            title="Logout?"
-                            description="Are you sure you want to logout"
-                            // icon={<LogOutIcon size={themeToken.sizeMD} className={"mr-2"} />}
-                            onConfirm={handleLogout}
-                            okButtonProps={{
-                                danger: true,
-                            }}
-                            okText="Logout"
-                            cancelText="Cancel"
-                        >
-                            <div className={"cursor-pointer flex justify-center p-2 text-white rounded-l-lg hover:text-color-primary hover:bg-color-bg-layout"}><LogOutIcon /></div>
-                        </Popconfirm>
+                        <Tooltip placement="right" title={"Logout"} color={themeColors.colorPrimary2}>
+                            <Popconfirm
+                                title="Logout?"
+                                description="Are you sure you want to logout"
+                                // icon={<LogOutIcon size={themeToken.sizeMD} className={"mr-2"} />}
+                                onConfirm={handleLogout}
+                                okButtonProps={{
+                                    danger: true,
+                                }}
+                                okText="Logout"
+                                cancelText="Cancel"
+                            >
+                                <div className={"cursor-pointer flex justify-center p-2 text-white rounded-l-lg hover:text-color-primary hover:bg-color-bg-layout"}><LogOutIcon /></div>
+                            </Popconfirm>
                         </Tooltip>
                     </li>
                 </ul>

@@ -27,6 +27,7 @@ export const useCreateProduct = () => {
         onSuccess: (data) => {
             if ("error" in data && !data?.error) {
                 queryClient.invalidateQueries({queryKey: [queryKeys.PRODUCTS]})
+                queryClient.invalidateQueries({queryKey: [queryKeys.DASHBOARD]})
             }
         }
     })
@@ -43,6 +44,7 @@ export const useUpdateProduct = () => {
         onSuccess: (data) => {
             if ("error" in data && !data?.error) {
                 queryClient.invalidateQueries({queryKey: [queryKeys.PRODUCTS]})
+                queryClient.invalidateQueries({queryKey: [queryKeys.DASHBOARD]})
             }
         }
     })
@@ -54,6 +56,7 @@ export const useGetProductDetails = (payload: Pick<TProductZS, "_id">) => {
         queryFn: async () => {
             const result = await callApi({
                 requestFunction: getProductDetailsRequest(payload),
+                showToastOnSuccess: false,
             });
             return result as TProductZS;
         },
@@ -72,6 +75,7 @@ export const useDeleteProduct = () => {
         onSuccess: (data) => {
             if ("error" in data && !data?.error) {
                 queryClient.invalidateQueries({queryKey: [queryKeys.PRODUCTS]})
+                queryClient.invalidateQueries({queryKey: [queryKeys.DASHBOARD]})
             }
         }
     })
