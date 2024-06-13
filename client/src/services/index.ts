@@ -5,4 +5,5 @@ export const queryKeys = {
     PRODUCTS: 'products',
     CUSTOMERS: 'customers',
     INVOICES: 'invoices',
+    DASHBOARD: 'dashboard',
 }
