@@ -23,7 +23,7 @@ const DashboardPage = () => {
     return (
         <div>
             <Row gutter={[10, 10]}>
-                <Col span={12}>
+                <Col xs={24} sm={12}>
                     <ACard bordered={false}>
                         <Statistic
                             title={"Customers"}
@@ -33,7 +33,7 @@ const DashboardPage = () => {
                     </ACard>
                 </Col>
 
-                <Col span={12}>
+                <Col xs={24} sm={12}>
                     <ACard bordered={false}>
                         <Statistic
                             title={"Products"}
@@ -42,7 +42,7 @@ const DashboardPage = () => {
                         />
                     </ACard>
                 </Col>
-                <Col span={12}>
+                <Col xs={24} sm={12}>
                     <ACard bordered={false}>
                         <Statistic
                             title={"Invoices"}
@@ -51,7 +51,7 @@ const DashboardPage = () => {
                         />
                     </ACard>
                 </Col>
-                <Col span={12}>
+                <Col xs={24} sm={12}>
                     <ACard bordered={false}>
                         <Statistic
                             title={"Total invoice amount"}
@@ -61,7 +61,7 @@ const DashboardPage = () => {
                         />
                     </ACard>
                 </Col>
-                <Col span={12}>
+                <Col xs={24} sm={12}>
                     <ACard bordered={false}>
                         <Statistic
                             title={"Unpaid invoice amount"}
@@ -72,7 +72,7 @@ const DashboardPage = () => {
                         />
                     </ACard>
                 </Col>
-                <Col span={12}>
+                <Col xs={24} sm={12}>
                     <ACard bordered={false}>
                         <Statistic
                             title={"Paid invoice amount"}
@@ -83,7 +83,7 @@ const DashboardPage = () => {
                         />
                     </ACard>
                 </Col>
-                <Col span={12}>
+                <Col xs={24} sm={12}>
                     <ACard bordered={false}>
                         <Statistic
                             title={"Overdue invoices"}
@@ -93,7 +93,7 @@ const DashboardPage = () => {
                         />
                     </ACard>
                 </Col>
-                <Col span={12}>
+                <Col xs={24} sm={12}>
                     <ACard bordered={false}>
                         <Statistic
                             title={"Unpaid invoices"}
@@ -103,7 +103,7 @@ const DashboardPage = () => {
                         />
                     </ACard>
                 </Col>
-                <Col span={12}>
+                <Col xs={24} sm={12}>
                     <ACard bordered={false}>
                         <Statistic
                             title={"Paid invoices"}
