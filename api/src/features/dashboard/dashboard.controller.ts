@@ -35,7 +35,6 @@ const getAnalyticsDataCountsHandler = async (req: any, res: Response) => {
     let paidInvoices = 0;
 
     invoiceResults?.forEach((invoice) => {
-        console.log("moment(invoice?.dueDate).format(), currentDate", moment(invoice?.dueDate).format(), currentDate)
         totalInvoiceAmount = totalInvoiceAmount + invoice?.totalAmount;
         if(currentDate > moment(invoice?.dueDate).format()) {
             overDueInvoices++;
@@ -65,7 +64,6 @@ const getAnalyticsDataCountsHandler = async (req: any, res: Response) => {
             paidInvoices,
         },
     }
-    console.log("result", result)
 
     return res.sendJSONResponse({
         data: {
