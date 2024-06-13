@@ -37,12 +37,12 @@ export const InvoiceEditor = () => {
         values?.productItems?.forEach((productItem) => {
             totalPrice = totalPrice + productItem?.quantity * (productItem?.unitPrice - (productItem?.unitPrice * (productItem?.discount ?? 0)) / 100);
         })
-        setFieldValue("totalPrice", totalPrice);
+        setFieldValue("totalPrice", Number(totalPrice?.toFixed(2)));
     }, [values?.productItems]);
 
     useEffect(() => {
         const totalAmount = values?.totalPrice + (values?.totalPrice * (values?.taxRate ?? 0))/100;
-        setFieldValue("totalAmount", totalAmount);
+        setFieldValue("totalAmount", Number(totalAmount?.toFixed(2)));
     }, [values?.totalPrice, values?.taxRate]);
 
     const customerOptions = useMemo(() => {
