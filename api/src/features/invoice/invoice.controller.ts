@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { Response } from "express";
 import httpStatus from "http-status";
-import { IInvoice, IProductItem } from "@src/features/invoice/invoice.model";
+import { EInvoiceStatus, IInvoice, IProductItem } from "@src/features/invoice/invoice.model";
 import {
   createInvoice,
   deleteInvoiceById,
@@ -96,6 +96,7 @@ const createInvoiceHandler = async (req: any, res: Response) => {
       totalPrice: totalPrice,
       taxRate: reqBody?.taxRate ?? 0,
       totalAmount,
+      status: reqBody?.status ?? EInvoiceStatus.UNPAID,
     };
 
     const invoice = await createInvoice({ payload, session });
@@ -213,6 +214,7 @@ const updateInvoiceHandler = async (req: any, res: Response) => {
     totalPrice: totalPrice,
     taxRate: reqBody?.taxRate ?? 0,
     totalAmount,
+    status: reqBody?.status ?? EInvoiceStatus.UNPAID,
   };
 
   const updatedInvoice = await updateInvoice({ _id: invoiceId, payload });
