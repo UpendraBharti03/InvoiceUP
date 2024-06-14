@@ -41,7 +41,7 @@ const EditInvoicePage = () => {
                     customer: invoiceDetails?.customer ?? null,
                     customerId: invoiceDetails?.customerId ?? "",
                     invoiceDescription: invoiceDetails?.invoiceDescription,
-                    dueDate: invoiceDetails?.dueDate ?? dayjs().format('DD/MM/YYYY'),
+                    dueDate: invoiceDetails?.dueDate ?? dayjs().format(),
                     status: invoiceDetails?.status ?? InvoiceStatus.UNPAID,
                     totalPrice: invoiceDetails?.totalPrice ?? 0,
                     taxRate: invoiceDetails?.taxRate ?? 0,

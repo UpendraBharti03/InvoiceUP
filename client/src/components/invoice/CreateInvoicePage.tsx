@@ -25,7 +25,7 @@ const CreateInvoicePage = () => {
                     customer: null,
                     customerId: "",
                     invoiceDescription: "",
-                    dueDate: dayjs().format('DD/MM/YYYY'),
+                    dueDate: dayjs().format(),
                     status: InvoiceStatus.UNPAID,
                     totalPrice: 0,
                     taxRate: 0,
