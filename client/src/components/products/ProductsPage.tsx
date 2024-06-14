@@ -143,7 +143,7 @@ const ProductsPage = () => {
                 setPage={setPage}
                 limit={limit}
                 setLimit={setLimit}
-                scroll={{x: 400}}
+                scroll={{x: 700}}
             />
         </div>
     )

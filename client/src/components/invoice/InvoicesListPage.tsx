@@ -4,11 +4,40 @@ import { Flex, Popconfirm, Spin, TableColumnsType } from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
 import { Pencil, Trash } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { AButton, ATable } from "@ant-ui";
+import { AButton, AStatusDropdownButton } from "@ant-ui";
 import { capitalizeFirstLetter } from "@ui-helpers";
-import { useDeleteInvoice, useGetInvoicesList } from "@/services/invoiceService";
-import { TInvoiceZS } from "@/@types/zodSchema/invoiceZS";
+import { useDeleteInvoice, useGetInvoicesList, useUpdateInvoiceStatus } from "@/services/invoiceService";
+import { InvoiceStatus, TInvoiceZS } from "@/@types/zodSchema/invoiceZS";
 import { TableWithPagination } from "@/components/ui/TableWithPagination";
+
+const invoiceStatusOptions = [
+    {
+        label: capitalizeFirstLetter(InvoiceStatus?.UNPAID),
+        value: InvoiceStatus?.UNPAID,
+    },
+    {
+        label: capitalizeFirstLetter(InvoiceStatus?.PARTIAL),
+        value: InvoiceStatus?.PARTIAL,
+    },
+    {
+        label: capitalizeFirstLetter(InvoiceStatus?.PAID),
+        value: InvoiceStatus?.PAID,
+    },
+]
+
+const InvoiceStatusDropdown = ({ record }: { record: TInvoiceZS }) => {
+    const { mutateAsync: updateInvoiceStatusMutateAsync, isPending } = useUpdateInvoiceStatus();
+    return (
+        <AStatusDropdownButton
+            currentRow={{ _id: record?._id, status: record?.status }}
+            options={invoiceStatusOptions}
+            onChange={(val) => updateInvoiceStatusMutateAsync({_id: record?._id, status: val})}
+            loading={isPending}
+        >
+            {capitalizeFirstLetter(record?.status)}
+        </AStatusDropdownButton>
+    )
+}
 
 const InvoiceActions = ({ record }: { record: TInvoiceZS }) => {
     const { mutateAsync: deleteInvoiceMutateAsync, isPending } = useDeleteInvoice();
@@ -80,7 +109,7 @@ const InvoicesListPage = () => {
                 dataIndex: 'status',
                 key: 'status',
                 ellipsis: true,
-                render: (value) => <span>{capitalizeFirstLetter(value)}</span>
+                render: (_, record) => <InvoiceStatusDropdown record={record} />,
             },
             {
                 title: 'Total Amount',

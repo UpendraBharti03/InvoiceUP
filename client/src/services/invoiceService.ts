@@ -8,7 +8,9 @@ import { callApi } from "@/utils/apiUtils/callApi"
 
 export const createInvoiceRequest = (payload: Omit<TInvoiceZS, "_id" | "userId">) => (axiosInstance: Axios) => axiosInstance.post(`${API_BASE_URL}/invoice/create`, payload)
 
-export const updateInvoiceRequest = ({_id, ...payload}: Pick<TInvoiceZS, "_id" | "status">) => (axiosInstance: Axios) => axiosInstance.put(`${API_BASE_URL}/invoice/${_id}`, payload)
+export const updateInvoiceRequest = ({_id, ...payload}: Omit<TInvoiceZS, "userId">) => (axiosInstance: Axios) => axiosInstance.put(`${API_BASE_URL}/invoice/${_id}`, payload)
+
+export const updateInvoiceStatusRequest = ({_id, ...payload}: Pick<TInvoiceZS, "_id" | "status">) => (axiosInstance: Axios) => axiosInstance.put(`${API_BASE_URL}/invoice/update-status/${_id}`, payload)
 
 export const getInvoiceDetailsRequest = ({_id}: Pick<TInvoiceZS, "_id">) => (axiosInstance: Axios) => axiosInstance.get(`${API_BASE_URL}/invoice?_id=${_id}`)
 
@@ -54,7 +56,7 @@ export const useUpdateInvoiceStatus = () => {
     return useMutation({
         mutationFn: async (payload: Pick<TInvoiceZS, "_id" | "status">) => {
             const result = await callApi({
-                requestFunction: updateInvoiceRequest(payload),
+                requestFunction: updateInvoiceStatusRequest(payload),
             });
             return result as TInvoiceZS;
         },
