@@ -1,10 +1,12 @@
 import dayjs from 'dayjs';
+import { useNavigate } from '@tanstack/react-router';
 import { TInvoiceFormZS } from "@/@types/invoice";
 import { InvoiceStatus } from "@/@types/zodSchema/invoiceZS";
 import InvoiceForm from "@/components/invoice/InvoiceForm";
 import { useCreateInvoice } from "@/services/invoiceService";
 
 const CreateInvoicePage = () => {
+    const navigate = useNavigate();
     const {mutateAsync: createInvoiceMutateAsync, isPending} = useCreateInvoice();
 
     const handleCreateInvoiceSubmit = async (values: TInvoiceFormZS) => {
@@ -12,9 +14,9 @@ const CreateInvoicePage = () => {
             ...values
         }
 
-        const result = await createInvoiceMutateAsync(payload);
-        if ("error" in result && !result?.error) {
-            
+        const data = await createInvoiceMutateAsync(payload);
+        if (!data?.error) {
+            navigate({ to: `/invoice/${data?.result?._id}` });
         }
     }
 

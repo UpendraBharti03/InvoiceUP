@@ -21,13 +21,13 @@ export const getInvoicesListRequest = (payload: TListParams<Pick<TInvoiceZS, "cu
 export const useCreateInvoice = () => {
     return useMutation({
         mutationFn: async (payload: Omit<TInvoiceZS, "_id" | "userId">) => {
-            const result = await callApi({
+            const data = await callApi({
                 requestFunction: createInvoiceRequest(payload),
             });
-            return result as TInvoiceZS;
+            return data as {result: TInvoiceZS; error?: boolean};
         },
         onSuccess: (data) => {
-            if ("error" in data && !data?.error) {
+            if (!data?.error) {
                 queryClient.invalidateQueries({queryKey: [queryKeys.INVOICES]})
                 queryClient.invalidateQueries({queryKey: [queryKeys.DASHBOARD]})
             }
