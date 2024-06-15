@@ -14,11 +14,6 @@ const CustomLayout = ({children}: {children: ReactNode}) => {
         return profile;
     }, []);
 
-    if (!profile) {
-        <Flex className={"h-screen w-full bg-color-bg-layout"} justify={"center"} align={"center"}>
-                <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
-            </Flex>
-    }
     // Other layouts will appear here with condition (for future use)
     // if (userType === .....)
 
