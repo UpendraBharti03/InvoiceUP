@@ -79,42 +79,72 @@ const appInvoiceInvoiceIdRoute = appInvoiceInvoiceIdImport.update({
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/(app)/customers': {
+      id: '/customers'
+      path: '/customers'
+      fullPath: '/customers'
       preLoaderRoute: typeof appCustomersImport
       parentRoute: typeof rootRoute
     }
     '/(app)/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
       preLoaderRoute: typeof appDashboardImport
       parentRoute: typeof rootRoute
     }
     '/(app)/invoices': {
+      id: '/invoices'
+      path: '/invoices'
+      fullPath: '/invoices'
       preLoaderRoute: typeof appInvoicesImport
       parentRoute: typeof rootRoute
     }
     '/(app)/products': {
+      id: '/products'
+      path: '/products'
+      fullPath: '/products'
       preLoaderRoute: typeof appProductsImport
       parentRoute: typeof rootRoute
     }
     '/(app)/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
       preLoaderRoute: typeof appProfileImport
       parentRoute: typeof rootRoute
     }
     '/(auth)/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
       preLoaderRoute: typeof authLoginImport
       parentRoute: typeof rootRoute
     }
     '/(auth)/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
       preLoaderRoute: typeof authSignupImport
       parentRoute: typeof rootRoute
     }
     '/(app)/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof appIndexImport
       parentRoute: typeof rootRoute
     }
     '/(app)/invoice/$invoiceId': {
+      id: '/invoice/$invoiceId'
+      path: '/invoice/$invoiceId'
+      fullPath: '/invoice/$invoiceId'
       preLoaderRoute: typeof appInvoiceInvoiceIdImport
       parentRoute: typeof rootRoute
     }
     '/(app)/invoice/': {
+      id: '/invoice/'
+      path: '/invoice'
+      fullPath: '/invoice'
       preLoaderRoute: typeof appInvoiceIndexImport
       parentRoute: typeof rootRoute
     }
@@ -123,7 +153,7 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren([
+export const routeTree = rootRoute.addChildren({
   appCustomersRoute,
   appDashboardRoute,
   appInvoicesRoute,
@@ -134,6 +164,58 @@ export const routeTree = rootRoute.addChildren([
   appIndexRoute,
   appInvoiceInvoiceIdRoute,
   appInvoiceIndexRoute,
-])
+})
 
 /* prettier-ignore-end */
+
+/* ROUTE_MANIFEST_START
+{
+  "routes": {
+    "__root__": {
+      "filePath": "__root.tsx",
+      "children": [
+        "/customers",
+        "/dashboard",
+        "/invoices",
+        "/products",
+        "/profile",
+        "/login",
+        "/signup",
+        "/",
+        "/invoice/$invoiceId",
+        "/invoice/"
+      ]
+    },
+    "/customers": {
+      "filePath": "(app)/customers.tsx"
+    },
+    "/dashboard": {
+      "filePath": "(app)/dashboard.tsx"
+    },
+    "/invoices": {
+      "filePath": "(app)/invoices.tsx"
+    },
+    "/products": {
+      "filePath": "(app)/products.tsx"
+    },
+    "/profile": {
+      "filePath": "(app)/profile.tsx"
+    },
+    "/login": {
+      "filePath": "(auth)/login.tsx"
+    },
+    "/signup": {
+      "filePath": "(auth)/signup.tsx"
+    },
+    "/": {
+      "filePath": "(app)/index.tsx"
+    },
+    "/invoice/$invoiceId": {
+      "filePath": "(app)/invoice/$invoiceId.tsx"
+    },
+    "/invoice/": {
+      "filePath": "(app)/invoice/index.tsx"
+    }
+  }
+}
+ROUTE_MANIFEST_END */
