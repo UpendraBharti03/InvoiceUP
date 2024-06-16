@@ -20,7 +20,7 @@ export const InvoiceProductItem = ({ arrayHelpers, productItem, productItemIndex
     const { values, setFieldValue } = useFormikContext<TInvoiceFormZS>();
 
     useEffect(() => {
-        if (productItem?.productId) {
+        if (productItem?.productId && productsList?.results?.find(product => product?._id !== productItem?.productId)) {
             setFieldValue(`productItems.${productItemIndex}.product`, productsList?.results?.find(product => product?._id === productItem?.productId))
             setFieldValue(`productItems.${productItemIndex}.unitPrice`, productsList?.results?.find(product => product?._id === productItem?.productId)?.totalAmount)
         }

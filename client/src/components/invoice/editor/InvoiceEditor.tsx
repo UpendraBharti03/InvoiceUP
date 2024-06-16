@@ -27,7 +27,7 @@ export const InvoiceEditor = () => {
     const { values, setFieldValue } = useFormikContext<TInvoiceFormZS>();
 
     useEffect(() => {
-        if (values?.customerId) {
+        if (values?.customerId && customersList?.results?.find(customer => customer?._id !== values?.customerId)) {
             setFieldValue("customer", customersList?.results?.find(customer => customer?._id === values?.customerId))
         }
     }, [values?.customerId]);
@@ -37,12 +37,16 @@ export const InvoiceEditor = () => {
         values?.productItems?.forEach((productItem) => {
             totalPrice = totalPrice + productItem?.quantity * (productItem?.unitPrice - (productItem?.unitPrice * (productItem?.discount ?? 0)) / 100);
         })
-        setFieldValue("totalPrice", Number(totalPrice?.toFixed(2)));
+        if (values?.totalPrice !== totalPrice) {
+            setFieldValue("totalPrice", Number(totalPrice?.toFixed(2)));
+        }
     }, [values?.productItems]);
 
     useEffect(() => {
         const totalAmount = values?.totalPrice + (values?.totalPrice * (values?.taxRate ?? 0))/100;
-        setFieldValue("totalAmount", Number(totalAmount?.toFixed(2)));
+        if (values?.totalAmount !== totalAmount) {
+            setFieldValue("totalAmount", Number(totalAmount?.toFixed(2)));
+        }
     }, [values?.totalPrice, values?.taxRate]);
 
     const customerOptions = useMemo(() => {
