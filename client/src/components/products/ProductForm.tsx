@@ -18,7 +18,9 @@ const ProductFormContent = () => {
 
     useEffect(() => {
         const totalAmount = values?.price + (values?.price * (values?.taxRate ?? 0))/100;
-        setFieldValue("totalAmount", totalAmount);
+        if (values?.totalAmount !== totalAmount) {
+            setFieldValue("totalAmount", Number(totalAmount?.toFixed(2)));
+        }
     }, [values?.price, values?.taxRate])
 
     return (

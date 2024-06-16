@@ -104,7 +104,7 @@ const ProductsPage = () => {
                 dataIndex: 'totalAmount',
                 key: 'totalAmount',
                 ellipsis: true,
-                render: (value, record) => value ? <span>{value}/{record?.measurementUnit}</span> : "-"
+                render: (value, record) => value ? <span>{Number(value?.toFixed(2))}/{record?.measurementUnit}</span> : "-"
             },
             {
                 width: 150,

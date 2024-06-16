@@ -2,13 +2,14 @@ import { useMemo, useState } from "react";
 import dayjs from 'dayjs';
 import { Flex, Popconfirm, Spin, TableColumnsType } from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
-import { Pencil, Trash } from "lucide-react";
+import { Eye, Pencil, Trash } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { AButton, AStatusDropdownButton } from "@ant-ui";
-import { capitalizeFirstLetter } from "@ui-helpers";
+import { AButton, ADrawer, AStatusDropdownButton } from "@ant-ui";
+import { capitalizeFirstLetter, useModalState } from "@ui-helpers";
 import { useDeleteInvoice, useGetInvoicesList, useUpdateInvoiceStatus } from "@/services/invoiceService";
 import { InvoiceStatus, TInvoiceZS } from "@/@types/zodSchema/invoiceZS";
 import { TableWithPagination } from "@/components/ui/TableWithPagination";
+import { InvoicePreview } from "@/components/invoice/preview/InvoicePreview";
 
 const invoiceStatusOptions = [
     {
@@ -31,7 +32,7 @@ const InvoiceStatusDropdown = ({ record }: { record: TInvoiceZS }) => {
         <AStatusDropdownButton
             currentRow={{ _id: record?._id, status: record?.status }}
             options={invoiceStatusOptions}
-            onChange={(val) => updateInvoiceStatusMutateAsync({_id: record?._id, status: val})}
+            onChange={(val) => updateInvoiceStatusMutateAsync({ _id: record?._id, status: val })}
             loading={isPending}
         >
             {capitalizeFirstLetter(record?.status)}
@@ -41,6 +42,7 @@ const InvoiceStatusDropdown = ({ record }: { record: TInvoiceZS }) => {
 
 const InvoiceActions = ({ record }: { record: TInvoiceZS }) => {
     const { mutateAsync: deleteInvoiceMutateAsync, isPending } = useDeleteInvoice();
+    const { isOpen: isInvoicePreviewModelOpen, handleOpen: handleInvoicePreviewModelOpen, handleClose: handleInvoicePreviewModelClose } = useModalState();
 
     const handleDeleteInvoice = async () => {
         await deleteInvoiceMutateAsync({ _id: record?._id })
@@ -48,6 +50,22 @@ const InvoiceActions = ({ record }: { record: TInvoiceZS }) => {
 
     return (
         <div className="flex items-center gap-2">
+            <>
+                <AButton
+                    ghost
+                    size="small"
+                    icon={<Eye className={"text-color-primary-2 w-4 h-4"} />}
+                    onClick={handleInvoicePreviewModelOpen}
+                ></AButton>
+                <ADrawer
+                    title={"Invoice preview"}
+                    size="large"
+                    open={isInvoicePreviewModelOpen}
+                    onClose={handleInvoicePreviewModelClose}
+                >
+                    <InvoicePreview invoiceDetails={record} />
+                </ADrawer>
+            </>
             <>
                 <Link to={`/invoice/${record?._id}`}>
                     <AButton
@@ -116,6 +134,7 @@ const InvoicesListPage = () => {
                 dataIndex: 'totalAmount',
                 key: 'totalAmount',
                 ellipsis: true,
+                render: (value) => <span>{Number(value?.toFixed(2))}</span>,
             },
             {
                 width: 150,

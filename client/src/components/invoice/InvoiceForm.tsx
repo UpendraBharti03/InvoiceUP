@@ -25,7 +25,9 @@ const InvoiceFormContent = () => {
 
                 {/* Preview */}
                 <Col md={12} xs={24}>
-                    <InvoicePreview invoiceDetails={values} />
+                    <div className={"bg-white rounded w-full h-full mb-10"}>
+                        <InvoicePreview invoiceDetails={values} />
+                    </div>
                 </Col>
             </Row>
         </>
