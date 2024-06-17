@@ -9,6 +9,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { persistor, store } from '@/redux/store'
 import { AUTH_SLICE_NAME } from '@/redux/slices/authSlice'
+import './global.css'
 import './index.css'
 
 // Import the generated route tree

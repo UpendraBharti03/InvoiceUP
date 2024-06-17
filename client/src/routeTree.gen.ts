@@ -20,7 +20,8 @@ import { Route as appInvoicesImport } from './routes/(app)/invoices'
 import { Route as appDashboardImport } from './routes/(app)/dashboard'
 import { Route as appCustomersImport } from './routes/(app)/customers'
 import { Route as appInvoiceIndexImport } from './routes/(app)/invoice/index'
-import { Route as appInvoiceInvoiceIdImport } from './routes/(app)/invoice/$invoiceId'
+import { Route as appInvoiceInvoiceIdIndexImport } from './routes/(app)/invoice/$invoiceId/index'
+import { Route as appInvoiceInvoiceIdInvoicePreviewImport } from './routes/(app)/invoice/$invoiceId/invoice-preview'
 
 // Create/Update Routes
 
@@ -69,10 +70,16 @@ const appInvoiceIndexRoute = appInvoiceIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const appInvoiceInvoiceIdRoute = appInvoiceInvoiceIdImport.update({
-  path: '/invoice/$invoiceId',
+const appInvoiceInvoiceIdIndexRoute = appInvoiceInvoiceIdIndexImport.update({
+  path: '/invoice/$invoiceId/',
   getParentRoute: () => rootRoute,
 } as any)
+
+const appInvoiceInvoiceIdInvoicePreviewRoute =
+  appInvoiceInvoiceIdInvoicePreviewImport.update({
+    path: '/invoice/$invoiceId/invoice-preview',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -134,18 +141,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof appIndexImport
       parentRoute: typeof rootRoute
     }
-    '/(app)/invoice/$invoiceId': {
-      id: '/invoice/$invoiceId'
-      path: '/invoice/$invoiceId'
-      fullPath: '/invoice/$invoiceId'
-      preLoaderRoute: typeof appInvoiceInvoiceIdImport
-      parentRoute: typeof rootRoute
-    }
     '/(app)/invoice/': {
       id: '/invoice/'
       path: '/invoice'
       fullPath: '/invoice'
       preLoaderRoute: typeof appInvoiceIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/(app)/invoice/$invoiceId/invoice-preview': {
+      id: '/invoice/$invoiceId/invoice-preview'
+      path: '/invoice/$invoiceId/invoice-preview'
+      fullPath: '/invoice/$invoiceId/invoice-preview'
+      preLoaderRoute: typeof appInvoiceInvoiceIdInvoicePreviewImport
+      parentRoute: typeof rootRoute
+    }
+    '/(app)/invoice/$invoiceId/': {
+      id: '/invoice/$invoiceId/'
+      path: '/invoice/$invoiceId'
+      fullPath: '/invoice/$invoiceId'
+      preLoaderRoute: typeof appInvoiceInvoiceIdIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -162,8 +176,9 @@ export const routeTree = rootRoute.addChildren({
   authLoginRoute,
   authSignupRoute,
   appIndexRoute,
-  appInvoiceInvoiceIdRoute,
   appInvoiceIndexRoute,
+  appInvoiceInvoiceIdInvoicePreviewRoute,
+  appInvoiceInvoiceIdIndexRoute,
 })
 
 /* prettier-ignore-end */
@@ -182,8 +197,9 @@ export const routeTree = rootRoute.addChildren({
         "/login",
         "/signup",
         "/",
-        "/invoice/$invoiceId",
-        "/invoice/"
+        "/invoice/",
+        "/invoice/$invoiceId/invoice-preview",
+        "/invoice/$invoiceId/"
       ]
     },
     "/customers": {
@@ -210,11 +226,14 @@ export const routeTree = rootRoute.addChildren({
     "/": {
       "filePath": "(app)/index.tsx"
     },
-    "/invoice/$invoiceId": {
-      "filePath": "(app)/invoice/$invoiceId.tsx"
-    },
     "/invoice/": {
       "filePath": "(app)/invoice/index.tsx"
+    },
+    "/invoice/$invoiceId/invoice-preview": {
+      "filePath": "(app)/invoice/$invoiceId/invoice-preview.tsx"
+    },
+    "/invoice/$invoiceId/": {
+      "filePath": "(app)/invoice/$invoiceId/index.tsx"
     }
   }
 }

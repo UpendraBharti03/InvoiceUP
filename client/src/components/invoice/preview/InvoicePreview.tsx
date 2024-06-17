@@ -30,25 +30,25 @@ export const InvoicePreview = ({ invoiceDetails }: { invoiceDetails: TInvoiceZS 
             </div>
 
             {/* Product items */}
-            <div className={"grid grid-cols-6 border-y"}>
+            <div className={"grid grid-cols-10 border-y"}>
                 <>
                     <div className={"font-semibold truncate"}>S. No.</div>
-                    <div className={"font-semibold truncate"}>Product</div>
+                    <div className={"font-semibold col-span-3 truncate"}>Product</div>
                     <div className={"font-semibold truncate"}>Qty</div>
-                    <div className={"font-semibold truncate"}>Unit price</div>
+                    <div className={"font-semibold col-span-2 truncate"}>Unit price</div>
                     <div className={"font-semibold truncate"}>Discount</div>
-                    <div className={"font-semibold truncate"}>Amount</div>
+                    <div className={"font-semibold col-span-2 truncate"}>Amount</div>
                 </>
                 {invoiceDetails?.productItems?.map((productItem, productItemIndex) => {
                     const amount = productItem?.quantity * (productItem?.unitPrice - (productItem?.unitPrice * (productItem?.discount ?? 0)) / 100)
                     return (
                         <React.Fragment key={productItemIndex}>
                             <div className={"truncate"}>{productItemIndex + 1}</div>
-                            <div className={"truncate"}>{productItem?.product?.productName}</div>
+                            <div className={"truncate col-span-3"}>{productItem?.product?.productName}</div>
                             <div className={"truncate"}>{productItem?.quantity}</div>
-                            <div className={"truncate"}>{productItem?.unitPrice}</div>
+                            <div className={"truncate col-span-2"}>{productItem?.unitPrice}</div>
                             <div className={"truncate"}>{productItem?.discount}</div>
-                            <div className={"truncate"}>{Number(amount?.toFixed(2))}</div>
+                            <div className={"truncate col-span-2"}>{Number(amount?.toFixed(2))}</div>
                         </React.Fragment>
                     )
                 })}

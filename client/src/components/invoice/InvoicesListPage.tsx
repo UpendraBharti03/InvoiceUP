@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import dayjs from 'dayjs';
 import { Flex, Popconfirm, Spin, TableColumnsType } from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
-import { Eye, Pencil, Trash } from "lucide-react";
+import { Download, Eye, Pencil, Trash } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { AButton, ADrawer, AStatusDropdownButton } from "@ant-ui";
 import { capitalizeFirstLetter, useModalState } from "@ui-helpers";
@@ -57,6 +57,13 @@ const InvoiceActions = ({ record }: { record: TInvoiceZS }) => {
                     icon={<Eye className={"text-color-primary-2 w-4 h-4"} />}
                     onClick={handleInvoicePreviewModelOpen}
                 ></AButton>
+                <Link target="_blank" to={`/invoice/${record?._id}/invoice-preview`}>
+                    <AButton
+                        ghost
+                        size="small"
+                        icon={<Download className="text-color-primary-2 w-4 h-4" />}
+                    ></AButton>
+                </Link>
                 <ADrawer
                     title={"Invoice preview"}
                     size="large"

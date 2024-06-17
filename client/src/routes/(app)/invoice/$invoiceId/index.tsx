@@ -4,7 +4,7 @@ import { AUTH_SLICE_NAME } from '@/redux/slices/authSlice';
 import { store } from '@/redux/store';
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/(app)/invoice/$invoiceId')({
+export const Route = createFileRoute('/(app)/invoice/$invoiceId/')({
   beforeLoad: ({ context }) => {
     // we have to reassign auth slice state in route context
     context.auth = store.getState()[AUTH_SLICE_NAME]
