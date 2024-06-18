@@ -17,6 +17,8 @@ const PORT = process.env.port;
 
 app.set('port', PORT);
 
+console.log("process.env ---------", process.env)
+
 const server = http.createServer(app);
 
 mongoose.connect(process.env.MONGODB_URL ?? '', {
