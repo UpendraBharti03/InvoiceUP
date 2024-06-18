@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node -r module-alias/register ./build/bin/www",
-    "build": "concurrently \"npx tsc\"",
+    "build": "npx tsc",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -r module-alias/register build/bin/www\""
   },
   "_moduleAliases": {
