@@ -1,0 +1,9 @@
+
+
+
+@media print {
+    /* tanstack query and router dev tools container */
+    .tsqd-parent-container, .TanStackRouterDevtools {
+        display: none;
+    }
+}

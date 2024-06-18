@@ -40,7 +40,7 @@ const ATextInputComponent = ({ label = '', isInvalid = false, errorMessage = '',
                 </Col>
             )}
             <Col span={24}>
-                <StyledInput ref={props?.inputRef} status={status} size={size} {...props} />
+                <StyledInput ref={props?.inputRef} status={status} size={size} {...(props?.type === "number" ? {step: "any"} : {})} {...props} />
             </Col>
             {preserveErrorSpace || isInvalid ? (
                 <Col span={24} className="text-end">

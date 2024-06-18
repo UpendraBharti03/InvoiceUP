@@ -21,3 +21,7 @@ export const downloadFile = (url: string) => {
     // Clean up and remove the link
     link.parentNode?.removeChild(link);
 };
+
+export const capitalizeFirstLetter = (input: string) => {
+    return input.charAt(0).toUpperCase() + input.slice(1);
+}

@@ -5,4 +5,5 @@ export * from './Tabs';
 export * from './MiniDrawer';
 export * from './Modal';
 export * from './Segmented';
+export * from './Table';
 export * from './TagsPopover';
