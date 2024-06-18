@@ -1,4 +1,5 @@
 import { TAuthSliceState } from '@/@types/auth';
+import { IS_PRODUCTION } from '@/config/config';
 import CustomLayout from '@/layout/Layout';
 import { AUTH_SLICE_NAME } from '@/redux/slices/authSlice';
 import { store } from '@/redux/store';
@@ -34,8 +35,12 @@ const RootComponent = () => {
                 </Link>
             </div> */}
             <Outlet />
-            <ReactQueryDevtools buttonPosition="top-right" />
-            <TanStackRouterDevtools position="bottom-right" />
+            {IS_PRODUCTION || (
+                <>
+                    <ReactQueryDevtools buttonPosition="top-right" />
+                    <TanStackRouterDevtools position="bottom-right" />
+                </>
+            )}
         </Layout>
     )
 }
