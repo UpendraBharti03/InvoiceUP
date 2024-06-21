@@ -1,3 +1,4 @@
+import { queryClient } from "@/App";
 import { LeafIconLogo } from "@/assets/logos/LeafIconLogo";
 import { cn } from "@/libs/ant-ui";
 import { logoutUser } from "@/redux/slices/authSlice";
@@ -83,6 +84,7 @@ export const Sidebar = () => {
     const handleLogout = async () => {
         const result = await dispatch(logoutUser());
         if (result) {
+            queryClient.clear();
             router.invalidate();
         }
     }
