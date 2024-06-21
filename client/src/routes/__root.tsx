@@ -7,6 +7,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { createRootRoute, createRootRouteWithContext, Link, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
+import {UnAuthLayout} from '@/layout/UnAuthLayout';
 import React from 'react';
 
 // import { TanStackRouterDevtools } from '@tanstack/router-devtools'
@@ -23,7 +24,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 const RootComponent = () => {
     const isAuthenticated = store?.getState()[AUTH_SLICE_NAME]?.isAuthenticated;
-    const Layout = isAuthenticated ? CustomLayout : React.Fragment;
+    const Layout = isAuthenticated ? CustomLayout : UnAuthLayout;
     return (
         <Layout>
                 {/* <div className="p-2 flex gap-2 bg-amber-400">
