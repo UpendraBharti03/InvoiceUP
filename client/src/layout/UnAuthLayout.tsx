@@ -1,5 +1,5 @@
 import {useMemo, ReactNode} from 'react';
-import {healthCheckRequest} from '@/service/healthCheckService';
+import { healthCheckRequest } from '@/services/healthCheckService';
 
 export const UnAuthLayout = ({children}: {children: ReactNode}) => {
     
