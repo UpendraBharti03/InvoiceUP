@@ -15,6 +15,8 @@ dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 const PORT = process.env.PORT || 4000;
 
+console.log("PORT", PORT)
+
 app.set('port', PORT);
 
 const server = http.createServer(app);
@@ -49,6 +51,7 @@ const onError = (error: any) => {
 
 const onListening = () => {
     const address = server.address();
+    console.log("Listening {address, PORT}", {address, PORT})
     const addr = typeof address === 'string' ? address : address?.port;
     console.log('Listening on ' + addr);
 }
