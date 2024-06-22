@@ -50,7 +50,6 @@ const CustomerForm = ({ initialValues, handleSubmit }: { initialValues: TCustome
             schema: CustomerFormZS,
             values,
         });
-        console.log('-> errors', zodErrors);
         return zodErrors;
     }
 

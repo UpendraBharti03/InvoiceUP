@@ -37,12 +37,10 @@ const InvoiceFormContent = () => {
 const InvoiceForm = ({ initialValues, handleSubmit }: { initialValues: TInvoiceFormZS; handleSubmit: (values: TInvoiceFormZS) => Promise<void> }) => {
 
     const validateForm = async (values: TInvoiceFormZS) => {
-        console.log("🚀 ~ validateForm ~ values:", values)
         const zodErrors: Partial<TInvoiceFormZS> = validateZodSchemaFormik({
             schema: InvoiceFormZS,
             values,
         });
-        console.log('-> errors', zodErrors);
         return zodErrors;
     }
 

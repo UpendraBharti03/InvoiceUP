@@ -5,7 +5,6 @@ import { useUiSettingsContext } from '../settings';
 export const AModal = (props: ModalProps) => {
     const { size: configSize } = useUiSettingsContext();
     const size = useMemo(() => {
-        console.log(configSize);
         switch (configSize) {
             case 'large':
                 return 992;

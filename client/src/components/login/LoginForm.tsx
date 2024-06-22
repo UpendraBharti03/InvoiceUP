@@ -36,7 +36,6 @@ const LoginForm = ({ initialValues, handleSubmit }: { initialValues: TLoginFormZ
             schema: LoginFormZS,
             values,
         });
-        console.log('-> errors', zodErrors);
         return zodErrors;
     }
 
