@@ -64,7 +64,6 @@ const ProductForm = ({ initialValues, handleSubmit }: { initialValues: TProductF
             schema: ProductFormZS,
             values,
         });
-        console.log('-> errors', zodErrors);
         return zodErrors;
     }
 

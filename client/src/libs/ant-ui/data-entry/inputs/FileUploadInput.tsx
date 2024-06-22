@@ -145,7 +145,6 @@ function AFileUploadInputComponent({
                         }}
                         type="file"
                         onChange={async (e) => {
-                            console.log('files', e.target.files);
                             const files = e?.target?.files ?? [];
                             if (!multiple) {
                                 const file = files?.[0];

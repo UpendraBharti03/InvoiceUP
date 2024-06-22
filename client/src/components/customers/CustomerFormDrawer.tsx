@@ -26,7 +26,6 @@ const CustomerFormDrawer = ({ open, handleClose, initialValues }: { open: boolea
         } else {
             result = await createCustomerMutateAsync(values);
         }
-        console.log("result", result)
         if ("error" in result && !result?.error) {
             handleClose();
         }

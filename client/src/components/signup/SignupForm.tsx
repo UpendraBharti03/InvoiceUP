@@ -45,7 +45,6 @@ const SignupForm = ({ initialValues, handleSubmit }: { initialValues: TSignupFor
             schema: SignupFormZS,
             values,
         });
-        console.log('-> errors', zodErrors);
         return zodErrors;
     }
 

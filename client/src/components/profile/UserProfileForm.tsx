@@ -56,7 +56,6 @@ const UserProfileForm = ({ initialValues, handleSubmit }: { initialValues: TUser
             schema: UserProfileFormZS,
             values,
         });
-        console.log('-> errors', zodErrors);
         return zodErrors;
     }
 

@@ -36,7 +36,6 @@ export interface IFileUploadDropzoneInputProps {
 }
 
 const FilePreview = ({ file }: { file: IDropzoneFile }) => {
-    console.log('-> file', file);
     if (file.mimetype && file.mimetype === 'image/svg+xml' && file?.url) {
         return (
             <div className="d-flex justify-content-center align-items-center">
@@ -195,7 +194,6 @@ const FileUploadDropzoneInputComponent = ({ value, onChange, allowedFileTypes, t
     };
 
     const uploadFiles = async (files: Array<File>) => {
-        console.log('-> files', files);
         files.map(async (file) => {
             const fileId = uuidv4();
             const fileObj: IDropzoneFile = {

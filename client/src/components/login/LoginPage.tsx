@@ -12,7 +12,6 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const handleLoginSubmit = async (values: TLoginFormZS) => {
         const result = await dispatch(loginUser(values));
-        console.log("result", result)
         if (result) {
             navigate({ to: "/dashboard" });
         }
