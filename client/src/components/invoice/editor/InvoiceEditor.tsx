@@ -94,7 +94,7 @@ export const InvoiceEditor = () => {
                         render={(arrayHelpers) => (
                             <>
                                 {values?.productItems?.map((productItem, index) => (
-                                    <Row key={index} gutter={[10, 10]} align={"middle"} className={cn("border-b", {"border-t": index === 0})}>
+                                    <Row key={index} gutter={[10, 10]} align={"middle"} className={cn("border-b pt-4", {"border-t": index === 0})}>
                                         <InvoiceProductItem arrayHelpers={arrayHelpers} productItem={productItem} productItemIndex={index} productsList={productsList!} productOptions={productOptions} />
                                     </Row>
                                 ))}

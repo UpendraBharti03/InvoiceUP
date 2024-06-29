@@ -71,7 +71,7 @@ export const useUpdateInvoiceStatus = () => {
 
 export const useGetInvoiceDetails = (payload: Pick<TInvoiceZS, "_id">) => {
     return useQuery({
-        queryKey: [queryKeys.INVOICES],
+        queryKey: [queryKeys.INVOICES, {_id: payload?._id}],
         queryFn: async () => {
             const data = await callApi({
                 requestFunction: getInvoiceDetailsRequest(payload),
